@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
-    private String TAG = LoginActivity.class.getSimpleName();
+    private String TAG = StartupActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private static String SERVICE_URL = "https://opendata.vancouver.ca/api/records/1.0/search/?dataset=parks&rows=216";
     private ArrayList<locations> locList;
