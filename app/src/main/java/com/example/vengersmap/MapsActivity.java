@@ -42,6 +42,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         new getLocations().execute();
 
 
+
     }
 
     @Override
