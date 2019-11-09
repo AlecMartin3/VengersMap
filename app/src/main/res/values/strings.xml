@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">VengersMap</string>
     <string name="title_activity_maps">Map</string>
+    <string name="LoginBut">Log in</string>
+    <string name="RegisterBut">Register</string>
 </resources>
