@@ -6,13 +6,10 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -28,7 +25,7 @@ import java.util.ArrayList;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
-    private String TAG = MainActivity.class.getSimpleName();
+    private String TAG = LoginActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private static String SERVICE_URL = "https://opendata.vancouver.ca/api/records/1.0/search/?dataset=parks&rows=216";
     private ArrayList<locations> locList;
@@ -41,6 +38,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locList = new ArrayList<>();
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
         new getLocations().execute();
 
 
@@ -138,11 +136,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 //        Log.d("test", "Hello pls");
 //
-//        LatLng gir = new LatLng(21.169065, 70.596481);
-//        mMap.addMarker(new MarkerOptions().position(gir).title("ihiuh"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(gir));
 //        LocAdapter adapter = new LocAdapter(MapsActivity.this);
-        LatLng vancouver = new LatLng(49, 123);
+        LatLng vancouver = new LatLng(50, 240);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(vancouver));
         for(locations n : locList) {
             mMap.addMarker(new MarkerOptions().position(new LatLng(n.getX(), n.getY())).title(n.getName()));
