@@ -3,14 +3,8 @@
     <string name="title_activity_maps">Map</string>
     <string name="LoginBut">Log in</string>
     <string name="RegisterBut">Register</string>
-    <string name="title_activity_profile">ProfileActivity</string>
-    <string name="profile_page_title">Profile</string>
-    <string name="tab_text_1">Collection</string>
-    <string name="tab_text_2">Basic Information</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="CreateHunt">Create a Hunt</string>
+    <string name="JoinHunt">Join a Hunt</string>
     <string name="WhichPark">Select a Park?</string>
     <string name="HowManyObj">How many artifacts in your hunt?</string>
     <string name="testBut">Map</string>
@@ -23,12 +17,4 @@
     <string name="lobbyName">Name:</string>
     <string name="lobbyPark">Park:</string>
     <string name="lobbyPlayers">Players:</string>
-    <string name="locationPicker">Pick a location</string>
-    <string name="artName">Artifact Name:</string>
-    <string name="enterName">Enter Name</string>
-    <string name="ok">Ok</string>
-    <string name="createHunt">Create Hunt</string>
-    <string name="JoinHunt">Join Hunt</string>
-    <string name="HuntName">Enter a Hunt name</string>
-    <string name="HuntPass">Enter a Password for your Hunt</string>
 </resources>

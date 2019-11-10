@@ -3,15 +3,11 @@ package com.example.vengersmap;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +38,7 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
     private ListView lvArtifacts;
     private List<Artifact> artifactList;
     private TextView tvSeek;
-    private Spinner parkSpinner;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,18 +81,9 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
         lvArtifacts = findViewById(R.id.lvArtifacts);
         artifactList = new ArrayList<Artifact>();
 
-        lvArtifacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                Intent appInfo = new Intent(CreateAHuntActivity.this, AddArtifact.class);
-                parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
-                String park = parkSpinner.getSelectedItem().toString();
-                appInfo.putExtra("park", park);
-                appInfo.putExtra("position", position);
-                appInfo.putExtra("artifact", artifactList.get(position));
-                startActivityForResult(appInfo, 1);
-            }
-        });
+//        lvArtifacts.setOnItemClickListener
+
+
 
         locList = new ArrayList<locations>();
 
@@ -104,21 +91,6 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
         mapFragment.getMapAsync(this);
         new getLocations().execute();
 
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if(resultCode == RESULT_OK) {
-                String artName = data.getStringExtra("name");
-                int pos = data.getIntExtra("position", 1);
-                artifactList.get(pos).setArtName(artName);
-                System.out.println(artName + " " + pos);
-                ArtifactAdapter adapter = new ArtifactAdapter(CreateAHuntActivity.this, artifactList);
-                lvArtifacts.setAdapter(adapter);
-
-            }
-        }
     }
 
     @Override
