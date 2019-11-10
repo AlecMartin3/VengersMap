@@ -54,7 +54,9 @@ public class AddArtifact extends FragmentActivity implements OnMapReadyCallback,
             strath2.setName("Point 2");
             strath2.setX(49.276052);
             strath2.setY(-123.087088);
+
             artLocations.add(strath1);
+            artLocations.add(strath2);
         }
         if(park.equals("Jericho Beach Park")){
 
