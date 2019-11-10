@@ -1,6 +1,8 @@
 package com.example.vengersmap;
 
-public class Artifact {
+import java.io.Serializable;
+
+public class Artifact implements Serializable {
     private String artName;
     private double x;
     private double y;
