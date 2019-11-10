@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,8 +31,12 @@ public class StartupActivity extends AppCompatActivity {
                 intent = new Intent(StartupActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
-            if(view.getId()== R.id.launchMap){
-                intent = new Intent(StartupActivity.this, MapsActivity.class);
+            if(view.getId()== R.id.launchCreateAHunt){
+                intent = new Intent(StartupActivity.this, CreateAHuntActivity.class);
+                startActivity(intent);
+            }
+            if(view.getId()== R.id.launchJoinAHunt){
+                intent = new Intent(StartupActivity.this, JoinAHuntActivity.class);
                 startActivity(intent);
             }
 

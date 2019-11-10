@@ -16,9 +16,16 @@
         android:onClick="LoginRegister"
         android:text="@string/RegisterBut" />
     <Button
-        android:id="@+id/launchMap"
+        android:id="@+id/launchCreateAHunt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="LoginRegister"
-        android:text="@string/testBut" />
+        android:text="@string/CreateHunt" />
+
+    <Button
+        android:id="@+id/launchJoinAHunt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="LoginRegister"
+        android:text="@string/JoinHunt" />
 </LinearLayout>
