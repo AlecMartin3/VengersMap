@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class StartupActivity extends AppCompatActivity {
     public Button login;
     public Button register;
-    EditText email;
-    EditText password;
     FirebaseAuth firebaseAuth;
 
 
@@ -21,8 +19,9 @@ public class StartupActivity extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_startup);
+            firebaseAuth = FirebaseAuth.getInstance();
         }
-        public void login(View view){
+        public void LoginRegister(View view){
         Intent intent = null;
             if(view.getId()== R.id.launchLogin){
                 intent = new Intent(StartupActivity.this, LoginActivity.class);
@@ -32,10 +31,11 @@ public class StartupActivity extends AppCompatActivity {
                 intent = new Intent(StartupActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
-            if(view.getId()== R.id.launchMap){
-                intent = new Intent(StartupActivity.this, MapsActivity.class);
+            if(view.getId()== R.id.launchCreateAHunt){
+                intent = new Intent(StartupActivity.this, CreateAHuntActivity.class);
                 startActivity(intent);
             }
+
         }
 
 }

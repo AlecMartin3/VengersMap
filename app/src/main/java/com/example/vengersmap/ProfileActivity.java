@@ -1,5 +1,6 @@
 package com.example.vengersmap;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -14,8 +15,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.vengersmap.ui.main.SectionsPagerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ProfileActivity extends AppCompatActivity {
+
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +37,11 @@ public class ProfileActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(ProfileActivity.this, StartupActivity.class);
+                intent.addFlags((Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
         });
     }

@@ -7,18 +7,25 @@
         android:id="@+id/launchLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="login"
-        android:text="Button" />
+        android:onClick="LoginRegister"
+        android:text="@string/LoginBut" />
     <Button
         android:id="@+id/launchRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="login"
-        android:text="Button" />
+        android:onClick="LoginRegister"
+        android:text="@string/RegisterBut" />
     <Button
-        android:id="@+id/launchMap"
+        android:id="@+id/launchCreateAHunt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="login"
-        android:text="Button" />
+        android:onClick="LoginRegister"
+        android:text="@string/CreateHunt" />
+
+    <Button
+        android:id="@+id/launchJoinAHunt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="LoginRegister"
+        android:text="@string/JoinHunt" />
 </LinearLayout>

@@ -74,7 +74,7 @@ public class TabInformation extends Fragment {
 //        userEmail = getView().findViewById(R.id.tvUserEmail);
 //        firebaseAuth = FirebaseAuth.getInstance();
 //        firebaseUser = firebaseAuth.getCurrentUser();
-
+//
 //        userEmail.setText(firebaseUser.getEmail());
 //        userEmail.setText("Testing123");
 
@@ -92,7 +92,11 @@ public class TabInformation extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         userEmail = getView().findViewById(R.id.tvUserEmail);
-        userEmail.setText("Testing123");
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+
+        userEmail.setText(firebaseUser.getEmail());
+//        userEmail.setText("Testing123");
     }
 
     // TODO: Rename method, update argument and hook method into UI event
