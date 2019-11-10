@@ -35,6 +35,7 @@ public class StartupActivity extends AppCompatActivity {
                 intent = new Intent(StartupActivity.this, MapsActivity.class);
                 startActivity(intent);
             }
+
         }
 
 }

@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -35,12 +37,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        locList = new ArrayList<>();
+
+        SeekBar sk = (SeekBar) findViewById(R.id.sbHuntObjects);
+        sk.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                TextView tv =(TextView)findViewById(R.id.tvSeekBar);
+                tv.setText(String.valueOf(i));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        locList = new ArrayList<locations>();
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         new getLocations().execute();
-
 
     }
 
@@ -74,16 +96,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     JSONArray jsonParks = jsonObj.getJSONArray("records");
                     for (int i = 0; i < jsonParks.length(); i++) {
                         JSONObject c = jsonParks.getJSONObject(i).getJSONObject("fields");
-                        JSONArray loc = c.getJSONArray("googlemapdest");
                         String name = c.getString("name");
-                        double x_loc = loc.getDouble(0);
-                        double y_loc = loc.getDouble(1);
-                        locations locat = new locations();
-                        locat.setName(name);
-                        locat.setX(x_loc);
-                        locat.setY(y_loc);
-                        locList.add(locat);
-                        Log.d("test", "hello" + x_loc);
+                        if (name.equals("Strathcona Park") || name.equals("Jericho Beach Park") || name.equals("Musqueam Park")){
+                            JSONArray loc = c.getJSONArray("googlemapdest");
+                            double x_loc = loc.getDouble(0);
+                            double y_loc = loc.getDouble(1);
+                            locations locat = new locations();
+                            locat.setName(name);
+                            locat.setX(x_loc);
+                            locat.setY(y_loc);
+                            locList.add(locat);
+                        }
+
                     }
 
 
@@ -134,17 +158,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-//        Log.d("test", "Hello pls");
-//
-//        LocAdapter adapter = new LocAdapter(MapsActivity.this);
-        LatLng vancouver = new LatLng(50, 240);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(vancouver));
+
+        LatLng vancouver = new LatLng(49.246292, -123.116226);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(vancouver, 11));
         for(locations n : locList) {
             mMap.addMarker(new MarkerOptions().position(new LatLng(n.getX(), n.getY())).title(n.getName()));
         }
-//        Marker m1 = mMap.addMarker(new MarkerOptions().position(vancouver).title("van"));
         LocAdapter markerInfoWindowAdapter = new LocAdapter(getApplicationContext());
         googleMap.setInfoWindowAdapter(markerInfoWindowAdapter);
+//        Marker m1 = mMap.addMarker(new MarkerOptions().position(vancouver).title("van"));
+
 
     }
 }

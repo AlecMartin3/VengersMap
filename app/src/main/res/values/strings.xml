@@ -3,11 +3,12 @@
     <string name="title_activity_maps">Map</string>
     <string name="LoginBut">Log in</string>
     <string name="RegisterBut">Register</string>
+    <string name="CreateHunt">Create a Hunt</string>
+    <string name="WhichPark">Which Park?</string>
     <string name="testBut">Map</string>
     <string name="hintEmail">Email</string>
     <string name="hintPassword">Password</string>
     <string name="goToRegisterBut">Go to Register</string>
     <string name="goToLoginBut">Go to Log in</string>
     <string name="signOutBut">Sign out</string>
-
 </resources>
