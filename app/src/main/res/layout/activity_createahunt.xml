@@ -11,6 +11,24 @@
         android:layout_weight="1"
         android:text="@string/CreateHunt" />
 
+    <EditText
+        android:id="@+id/etHuntName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/HuntName" />
+
+    <EditText
+        android:id="@+id/etHuntPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="@string/HuntPass" />
+
     <TextView
         android:id="@+id/tvWhichPark"
         android:layout_width="match_parent"
