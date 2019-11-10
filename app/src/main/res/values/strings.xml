@@ -1,4 +1,20 @@
 <resources>
     <string name="app_name">VengersMap</string>
     <string name="title_activity_maps">Map</string>
+    <string name="LoginBut">Log in</string>
+    <string name="RegisterBut">Register</string>
+    <string name="CreateHunt">Create a Hunt</string>
+    <string name="WhichPark">Select a Park?</string>
+    <string name="HowManyObj">How many artifacts in your hunt?</string>
+    <string name="testBut">Map</string>
+    <string name="hintEmail">Email</string>
+    <string name="hintPassword">Password</string>
+    <string name="goToRegisterBut">Go to Register</string>
+    <string name="goToLoginBut">Go to Log in</string>
+    <string name="signOutBut">Sign out</string>
+    <string name="locationPicker">Pick a location</string>
+    <string name="artName">Artifact Name:</string>
+    <string name="enterName">Enter Name</string>
+    <string name="ok">Ok</string>
+    <string name="createHunt">Create Hunt</string>
 </resources>
