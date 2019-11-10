@@ -29,7 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
     private String TAG = StartupActivity.class.getSimpleName();
@@ -46,7 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_createahunt);
 
         SeekBar sk = (SeekBar) findViewById(R.id.sbHuntObjects);
         sk.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -60,7 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 artifactList.clear();
-                ArtifactAdapter adapter = new ArtifactAdapter(MapsActivity.this, artifactList);
+                ArtifactAdapter adapter = new ArtifactAdapter(CreateAHuntActivity.this, artifactList);
                 lvArtifacts.setAdapter(adapter);
             }
 
@@ -75,7 +75,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     artifactList.add(a);
                 }
 
-                ArtifactAdapter adapter = new ArtifactAdapter(MapsActivity.this, artifactList);
+                ArtifactAdapter adapter = new ArtifactAdapter(CreateAHuntActivity.this, artifactList);
                 lvArtifacts.setAdapter(adapter);
 
             }
@@ -87,7 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         lvArtifacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                Intent appInfo = new Intent(MapsActivity.this, AddArtifact.class);
+                Intent appInfo = new Intent(CreateAHuntActivity.this, AddArtifact.class);
                 appInfo.putExtra("position", position);
                 appInfo.putExtra("artifact", artifactList.get(position));
                 startActivityForResult(appInfo, 1);
@@ -110,7 +110,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 int pos = data.getIntExtra("position", 1);
                 artifactList.get(pos).setArtName(artName);
                 System.out.println(artName + " " + pos);
-                ArtifactAdapter adapter = new ArtifactAdapter(MapsActivity.this, artifactList);
+                ArtifactAdapter adapter = new ArtifactAdapter(CreateAHuntActivity.this, artifactList);
                 lvArtifacts.setAdapter(adapter);
 
             }
@@ -128,7 +128,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(MapsActivity.this);
+            pDialog = new ProgressDialog(CreateAHuntActivity.this);
             pDialog.setMessage("Please wait...");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -202,7 +202,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //Toon[] toonArray = toonList.toArray(new Toon[toonList.size()]);
 
 
-            mapFragment.getMapAsync(MapsActivity.this);
+            mapFragment.getMapAsync(CreateAHuntActivity.this);
 
         }
     }
