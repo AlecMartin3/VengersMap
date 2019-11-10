@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +42,7 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
     private ListView lvArtifacts;
     private List<Artifact> artifactList;
     private TextView tvSeek;
-
+    private Spinner parkSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +89,9 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
                 Intent appInfo = new Intent(CreateAHuntActivity.this, AddArtifact.class);
+                parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
+                String park = parkSpinner.getSelectedItem().toString();
+                appInfo.putExtra("park", park);
                 appInfo.putExtra("position", position);
                 appInfo.putExtra("artifact", artifactList.get(position));
                 startActivityForResult(appInfo, 1);

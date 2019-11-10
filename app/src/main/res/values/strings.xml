@@ -29,4 +29,6 @@
     <string name="ok">Ok</string>
     <string name="createHunt">Create Hunt</string>
     <string name="JoinHunt">Join Hunt</string>
+    <string name="HuntName">Enter a Hunt name</string>
+    <string name="HuntPass">Enter a Password for your Hunt</string>
 </resources>
