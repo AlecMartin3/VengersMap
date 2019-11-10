@@ -4,5 +4,6 @@
     <string name="LoginBut">Log in</string>
     <string name="RegisterBut">Register</string>
     <string name="CreateHunt">Create a Hunt</string>
-    <string name="WhichPark">Which Park?</string>
+    <string name="WhichPark">Select a park?</string>
+    <string name="HowManyObj">How many objects in your hunt?</string>
 </resources>
