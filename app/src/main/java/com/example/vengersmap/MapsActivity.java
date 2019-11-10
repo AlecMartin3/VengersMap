@@ -68,7 +68,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 int numArtifacts = Integer.parseInt(tvSeek.getText().toString());
                 for(int j = 1; j < numArtifacts + 1; j++){
-                    String artName = "Object " + j;
+                    String artName = "Artifact " + j;
                     Artifact a = new Artifact(artName);
                     artifactList.add(a);
                 }
