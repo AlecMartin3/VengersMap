@@ -48,7 +48,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="380dp"
-        tools:context=".MapsActivity" />
+        tools:context=".CreateAHuntActivity" />
 
     <ListView
         android:id="@+id/lvArtifacts"

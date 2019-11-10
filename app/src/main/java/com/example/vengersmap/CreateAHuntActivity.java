@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -27,7 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
     private String TAG = StartupActivity.class.getSimpleName();
@@ -44,7 +43,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_createahunt);
 
         SeekBar sk = (SeekBar) findViewById(R.id.sbHuntObjects);
         sk.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -58,7 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 artifactList.clear();
-                ArtifactAdapter adapter = new ArtifactAdapter(MapsActivity.this, artifactList);
+                ArtifactAdapter adapter = new ArtifactAdapter(CreateAHuntActivity.this, artifactList);
                 lvArtifacts.setAdapter(adapter);
             }
 
@@ -73,7 +72,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     artifactList.add(a);
                 }
 
-                ArtifactAdapter adapter = new ArtifactAdapter(MapsActivity.this, artifactList);
+                ArtifactAdapter adapter = new ArtifactAdapter(CreateAHuntActivity.this, artifactList);
                 lvArtifacts.setAdapter(adapter);
 
             }
@@ -105,7 +104,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(MapsActivity.this);
+            pDialog = new ProgressDialog(CreateAHuntActivity.this);
             pDialog.setMessage("Please wait...");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -179,7 +178,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //Toon[] toonArray = toonList.toArray(new Toon[toonList.size()]);
 
 
-            mapFragment.getMapAsync(MapsActivity.this);
+            mapFragment.getMapAsync(CreateAHuntActivity.this);
 
         }
     }
