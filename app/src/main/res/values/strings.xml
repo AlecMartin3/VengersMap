@@ -12,4 +12,9 @@
     <string name="goToRegisterBut">Go to Register</string>
     <string name="goToLoginBut">Go to Log in</string>
     <string name="signOutBut">Sign out</string>
+    <string name="locationPicker">Pick a location</string>
+    <string name="artName">Artifact Name:</string>
+    <string name="enterName">Enter Name</string>
+    <string name="ok">Ok</string>
+    <string name="createHunt">Create Hunt</string>
 </resources>

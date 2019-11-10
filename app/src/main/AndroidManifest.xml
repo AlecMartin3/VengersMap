@@ -39,6 +39,7 @@
         <activity android:name=".ProfileActivity"/>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".AddArtifact"/>
         <activity
             android:name=".StartupActivity"
             android:label="@string/title_activity_maps">

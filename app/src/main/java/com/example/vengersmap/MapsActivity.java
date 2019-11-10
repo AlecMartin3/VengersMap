@@ -3,9 +3,11 @@ package com.example.vengersmap;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -82,9 +84,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         lvArtifacts = findViewById(R.id.lvArtifacts);
         artifactList = new ArrayList<Artifact>();
 
-//        lvArtifacts.setOnItemClickListener
-
-
+        lvArtifacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
+                Intent appInfo = new Intent(MapsActivity.this, AddArtifact.class);
+                appInfo.putExtra("position", position);
+                appInfo.putExtra("artifact", artifactList.get(position));
+                startActivityForResult(appInfo, 1);
+            }
+        });
 
         locList = new ArrayList<locations>();
 
@@ -92,6 +100,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         new getLocations().execute();
 
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                String artName = data.getStringExtra("name");
+                int pos = data.getIntExtra("position", 1);
+                artifactList.get(pos).setArtName(artName);
+                System.out.println(artName + " " + pos);
+                ArtifactAdapter adapter = new ArtifactAdapter(MapsActivity.this, artifactList);
+                lvArtifacts.setAdapter(adapter);
+
+            }
+        }
     }
 
     @Override
