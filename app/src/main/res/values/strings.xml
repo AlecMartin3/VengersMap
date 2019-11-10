@@ -6,4 +6,10 @@
     <string name="CreateHunt">Create a Hunt</string>
     <string name="WhichPark">Select a Park?</string>
     <string name="HowManyObj">How many objects in your hunt?</string>
+    <string name="testBut">Map</string>
+    <string name="hintEmail">Email</string>
+    <string name="hintPassword">Password</string>
+    <string name="goToRegisterBut">Go to Register</string>
+    <string name="goToLoginBut">Go to Log in</string>
+    <string name="signOutBut">Sign out</string>
 </resources>
