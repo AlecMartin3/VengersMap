@@ -1,9 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MapsActivity" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvCreateHunt"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/CreateHunt" />
+
+    <TextView
+        android:id="@+id/tvWhichPark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/WhichPark" />
+
+    <Spinner
+        android:id="@+id/spinnerPark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/spinnerParks"/>
+
+    <TextView
+        android:id="@+id/tvObjects"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/HowManyObj"/>
+
+    <SeekBar
+        android:id="@+id/sbHuntObjects"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="10"/>
+
+    <TextView
+        android:id="@+id/tvSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:gravity="center"/>
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        tools:context=".MapsActivity" />
+
+    <ListView
+        android:id="@+id/lvArtifacts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

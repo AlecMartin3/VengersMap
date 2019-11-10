@@ -6,6 +6,10 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,26 +25,72 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
-    private String TAG = LoginActivity.class.getSimpleName();
+    private String TAG = StartupActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private static String SERVICE_URL = "https://opendata.vancouver.ca/api/records/1.0/search/?dataset=parks&rows=216";
     private ArrayList<locations> locList;
     private Marker mark;
     public SupportMapFragment mapFragment;
+    private ListView lvArtifacts;
+    private List<Artifact> artifactList;
+    private TextView tvSeek;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        locList = new ArrayList<>();
+
+        SeekBar sk = (SeekBar) findViewById(R.id.sbHuntObjects);
+        sk.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                tvSeek =(TextView)findViewById(R.id.tvSeekBar);
+                tvSeek.setText(String.valueOf(i));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                artifactList.clear();
+                ArtifactAdapter adapter = new ArtifactAdapter(MapsActivity.this, artifactList);
+                lvArtifacts.setAdapter(adapter);
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                tvSeek =(TextView)findViewById(R.id.tvSeekBar);
+
+                int numArtifacts = Integer.parseInt(tvSeek.getText().toString());
+                for(int j = 1; j < numArtifacts + 1; j++){
+                    String artName = "Artifact " + j;
+                    Artifact a = new Artifact(artName);
+                    artifactList.add(a);
+                }
+
+                ArtifactAdapter adapter = new ArtifactAdapter(MapsActivity.this, artifactList);
+                lvArtifacts.setAdapter(adapter);
+
+            }
+        });
+
+        lvArtifacts = findViewById(R.id.lvArtifacts);
+        artifactList = new ArrayList<Artifact>();
+
+//        lvArtifacts.setOnItemClickListener
+
+
+
+        locList = new ArrayList<locations>();
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         new getLocations().execute();
-
 
     }
 
@@ -74,16 +124,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     JSONArray jsonParks = jsonObj.getJSONArray("records");
                     for (int i = 0; i < jsonParks.length(); i++) {
                         JSONObject c = jsonParks.getJSONObject(i).getJSONObject("fields");
-                        JSONArray loc = c.getJSONArray("googlemapdest");
                         String name = c.getString("name");
-                        double x_loc = loc.getDouble(0);
-                        double y_loc = loc.getDouble(1);
-                        locations locat = new locations();
-                        locat.setName(name);
-                        locat.setX(x_loc);
-                        locat.setY(y_loc);
-                        locList.add(locat);
-                        Log.d("test", "hello" + x_loc);
+                        if (name.equals("Strathcona Park") || name.equals("Jericho Beach Park") || name.equals("Musqueam Park")){
+                            JSONArray loc = c.getJSONArray("googlemapdest");
+                            double x_loc = loc.getDouble(0);
+                            double y_loc = loc.getDouble(1);
+                            locations locat = new locations();
+                            locat.setName(name);
+                            locat.setX(x_loc);
+                            locat.setY(y_loc);
+                            locList.add(locat);
+                        }
+
                     }
 
 
@@ -134,17 +186,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-//        Log.d("test", "Hello pls");
-//
-//        LocAdapter adapter = new LocAdapter(MapsActivity.this);
-        LatLng vancouver = new LatLng(50, 240);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(vancouver));
+
+        LatLng vancouver = new LatLng(49.246292, -123.116226);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(vancouver, 11));
         for(locations n : locList) {
             mMap.addMarker(new MarkerOptions().position(new LatLng(n.getX(), n.getY())).title(n.getName()));
         }
-//        Marker m1 = mMap.addMarker(new MarkerOptions().position(vancouver).title("van"));
         LocAdapter markerInfoWindowAdapter = new LocAdapter(getApplicationContext());
         googleMap.setInfoWindowAdapter(markerInfoWindowAdapter);
+//        Marker m1 = mMap.addMarker(new MarkerOptions().position(vancouver).title("van"));
+
 
     }
 }
