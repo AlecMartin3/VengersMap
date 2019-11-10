@@ -21,4 +21,5 @@
     <string name="enterName">Enter Name</string>
     <string name="ok">Ok</string>
     <string name="createHunt">Create Hunt</string>
+    <string name="JoinHunt">Create Hunt</string>
 </resources>

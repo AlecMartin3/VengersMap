@@ -31,7 +31,7 @@ public class StartupActivity extends AppCompatActivity {
                 intent = new Intent(StartupActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
-            if(view.getId()== R.id.launchMap){
+            if(view.getId()== R.id.launchCreateAHunt){
                 intent = new Intent(StartupActivity.this, CreateAHuntActivity.class);
                 startActivity(intent);
             }
