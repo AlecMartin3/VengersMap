@@ -5,7 +5,7 @@
     <string name="RegisterBut">Register</string>
     <string name="CreateHunt">Create a Hunt</string>
     <string name="WhichPark">Select a Park?</string>
-    <string name="HowManyObj">How many objects in your hunt?</string>
+    <string name="HowManyObj">How many artifacts in your hunt?</string>
     <string name="testBut">Map</string>
     <string name="hintEmail">Email</string>
     <string name="hintPassword">Password</string>

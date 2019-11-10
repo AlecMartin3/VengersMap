@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
@@ -33,6 +36,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<locations> locList;
     private Marker mark;
     public SupportMapFragment mapFragment;
+    private ListView lvArtifacts;
+    private List<Artifact> artifactList;
+    private TextView tvSeek;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,20 +51,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                TextView tv =(TextView)findViewById(R.id.tvSeekBar);
-                tv.setText(String.valueOf(i));
+                tvSeek =(TextView)findViewById(R.id.tvSeekBar);
+                tvSeek.setText(String.valueOf(i));
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                artifactList.clear();
+                ArtifactAdapter adapter = new ArtifactAdapter(MapsActivity.this, artifactList);
+                lvArtifacts.setAdapter(adapter);
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                tvSeek =(TextView)findViewById(R.id.tvSeekBar);
+
+                int numArtifacts = Integer.parseInt(tvSeek.getText().toString());
+                for(int j = 1; j < numArtifacts + 1; j++){
+                    String artName = "Artifact " + j;
+                    Artifact a = new Artifact(artName);
+                    artifactList.add(a);
+                }
+
+                ArtifactAdapter adapter = new ArtifactAdapter(MapsActivity.this, artifactList);
+                lvArtifacts.setAdapter(adapter);
 
             }
         });
+
+        lvArtifacts = findViewById(R.id.lvArtifacts);
+        artifactList = new ArrayList<Artifact>();
+
+//        lvArtifacts.setOnItemClickListener
+
+
 
         locList = new ArrayList<locations>();
 
