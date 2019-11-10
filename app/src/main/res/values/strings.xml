@@ -3,4 +3,11 @@
     <string name="title_activity_maps">Map</string>
     <string name="LoginBut">Log in</string>
     <string name="RegisterBut">Register</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="profile_page_title">Profile</string>
+    <string name="tab_text_1">Collection</string>
+    <string name="tab_text_2">Basic Information</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
