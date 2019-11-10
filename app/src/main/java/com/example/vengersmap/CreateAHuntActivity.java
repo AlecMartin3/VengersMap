@@ -36,7 +36,7 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
     private String TAG = StartupActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private static String SERVICE_URL = "https://opendata.vancouver.ca/api/records/1.0/search/?dataset=parks&rows=216";
-    private ArrayList<locations> locList;
+    private ArrayList<Location> locList;
     private Marker mark;
     public SupportMapFragment mapFragment;
     private ListView lvArtifacts;
@@ -98,7 +98,7 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
             }
         });
 
-        locList = new ArrayList<locations>();
+        locList = new ArrayList<Location>();
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -156,7 +156,7 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
                             JSONArray loc = c.getJSONArray("googlemapdest");
                             double x_loc = loc.getDouble(0);
                             double y_loc = loc.getDouble(1);
-                            locations locat = new locations();
+                            Location locat = new Location();
                             locat.setName(name);
                             locat.setX(x_loc);
                             locat.setY(y_loc);
@@ -216,7 +216,7 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
 
         LatLng vancouver = new LatLng(49.246292, -123.116226);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(vancouver, 11));
-        for(locations n : locList) {
+        for(Location n : locList) {
             mMap.addMarker(new MarkerOptions().position(new LatLng(n.getX(), n.getY())).title(n.getName()));
         }
         LocAdapter markerInfoWindowAdapter = new LocAdapter(getApplicationContext());

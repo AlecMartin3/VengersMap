@@ -1,6 +1,6 @@
 package com.example.vengersmap;
 
-public class locations {
+public class Location {
     private double x;
     private double y;
     private String name;
