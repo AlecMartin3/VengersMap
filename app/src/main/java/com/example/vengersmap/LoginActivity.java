@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
                                     startActivity(new Intent(LoginActivity.this,
-                                            MapsActivity.class));
+                                            ProfileActivity.class));
                                 }else{
                                     Toast.makeText(LoginActivity.this,
                                             task.getException().getMessage(),

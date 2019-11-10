@@ -10,4 +10,5 @@
     <string name="hintPassword">Password</string>
     <string name="goToRegisterBut">Go to Register</string>
     <string name="goToLoginBut">Go to Log in</string>
+    <string name="signOutBut">Sign out</string>
 </resources>
