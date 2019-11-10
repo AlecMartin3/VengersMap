@@ -30,10 +30,9 @@ class LocAdapter implements GoogleMap.InfoWindowAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v =  inflater.inflate(R.layout.map_info, null);
 
-        locations loc = (locations) marker.getTag();
-
+        String title = marker.getTitle();
         TextView name = (TextView) v.findViewById(R.id.name);
-        name.setText(loc.getName());
+        name.setText(title);
         return v;
     }
 }
