@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -22,6 +23,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,11 +47,28 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
     private List<Artifact> artifactList;
     private TextView tvSeek;
     private Spinner parkSpinner;
+    private DatabaseReference databaseReading;
+    private Button createHunt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_createahunt);
+
+        System.out.println("test");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        databaseReading = database.getReference("hunts");
+
+
+
+        createHunt = findViewById(R.id.btnCreateHunt);
+
+        createHunt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addHunt();
+            }
+        });
 
         SeekBar sk = (SeekBar) findViewById(R.id.sbHuntObjects);
         sk.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -112,12 +133,22 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
             if(resultCode == RESULT_OK) {
                 String artName = data.getStringExtra("name");
                 int pos = data.getIntExtra("position", 1);
+                double x = data.getDoubleExtra("x", 1);
+                double y = data.getDoubleExtra("y", 1);
+                System.out.println(x + " " + y);
                 artifactList.get(pos).setArtName(artName);
-                System.out.println(artName + " " + pos);
+                artifactList.get(pos).setX(x);
+                artifactList.get(pos).setY(y);
                 ArtifactAdapter adapter = new ArtifactAdapter(CreateAHuntActivity.this, artifactList);
                 lvArtifacts.setAdapter(adapter);
-
             }
+        }
+    }
+
+    public void addHunt(){
+        String id = databaseReading.push().getKey();
+        for(Artifact a : artifactList){
+            Task setValueTask = databaseReading.child(id).setValue(a);
         }
     }
 

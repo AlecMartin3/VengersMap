@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -13,6 +14,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
@@ -24,6 +26,9 @@ public class AddArtifact extends FragmentActivity implements OnMapReadyCallback,
     private String name = " ";
     private String park;
     private ArrayList<Location> artLocation;
+    private Spinner spinnerPoint;
+    private double x;
+    private double y;
     public SupportMapFragment mapFragment;
 
 
@@ -33,9 +38,11 @@ public class AddArtifact extends FragmentActivity implements OnMapReadyCallback,
 
         position = getIntent().getExtras().getInt("position");
         park = getIntent().getExtras().getString("park");
-
+        artLocation = new ArrayList<Location>();
+        createLocation();
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
     @Override
@@ -44,7 +51,7 @@ public class AddArtifact extends FragmentActivity implements OnMapReadyCallback,
     }
 
     public void createLocation(){
-        if(park.equals("Strathchona Park")){
+        if(park.equals("Strathcona Park")){
             Location strath1 = new Location();
             strath1.setName("Point 1");
             strath1.setX(49.274795);
@@ -229,8 +236,64 @@ public class AddArtifact extends FragmentActivity implements OnMapReadyCallback,
             musq10.setX(49.230319);
             musq10.setY(-123.188732);
             artLocation.add(musq10);
-
         }
+
+    }
+
+    public void getPoint(){
+        spinnerPoint = (Spinner) findViewById(R.id.spinnerPoint);
+        String point = spinnerPoint.getSelectedItem().toString();
+        if(point.equals("Point 1")){
+            Location loc = artLocation.get(0);
+            x = loc.getX();
+            y = loc.getY();
+        }
+        if(point.equals("Point 2")){
+            Location loc = artLocation.get(1);
+            x = loc.getX();
+            y = loc.getY();
+        }
+        if(point.equals("Point 3")){
+            Location loc = artLocation.get(2);
+            x = loc.getX();
+            y = loc.getY();
+        }
+        if(point.equals("Point 4")){
+            Location loc = artLocation.get(3);
+            x = loc.getX();
+            y = loc.getY();
+        }
+        if(point.equals("Point 5")){
+            Location loc = artLocation.get(4);
+            x = loc.getX();
+            y = loc.getY();
+        }
+        if(point.equals("Point 6")){
+            Location loc = artLocation.get(5);
+            x = loc.getX();
+            y = loc.getY();
+        }
+        if(point.equals("Point 7")){
+            Location loc = artLocation.get(6);
+            x = loc.getX();
+            y = loc.getY();
+        }
+        if(point.equals("Point 8")){
+            Location loc = artLocation.get(7);
+            x = loc.getX();
+            y = loc.getY();
+        }
+        if(point.equals("Point 9")){
+            Location loc = artLocation.get(8);
+            x = loc.getX();
+            y = loc.getY();
+        }
+        if(point.equals("Point 10")){
+            Location loc = artLocation.get(9);
+            x = loc.getX();
+            y = loc.getY();
+        }
+
 
     }
 
@@ -241,28 +304,46 @@ public class AddArtifact extends FragmentActivity implements OnMapReadyCallback,
             System.out.println(park);
             LatLng parkLoc = new LatLng(49.274959, -123.085946);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(parkLoc, 16));
+            for(Location n : artLocation){
+                mMap.addMarker(new MarkerOptions().position(new LatLng(n.getX(), n.getY())).title(n.getName()));
+            }
+            LocAdapter markerInfoWindowAdapter = new LocAdapter(getApplicationContext());
+            googleMap.setInfoWindowAdapter(markerInfoWindowAdapter);
         }
 
         if(park.equals("Jericho Beach Park")){
             System.out.println(park);
             LatLng parkLoc = new LatLng( 49.271520, -123.197868);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(parkLoc, 15));
+            for(Location n : artLocation){
+                mMap.addMarker(new MarkerOptions().position(new LatLng(n.getX(), n.getY())).title(n.getName()));
+            }
+            LocAdapter markerInfoWindowAdapter = new LocAdapter(getApplicationContext());
+            googleMap.setInfoWindowAdapter(markerInfoWindowAdapter);
         }
 
         if(park.equals("Musqueam Park")){
             System.out.println(park);
             LatLng parkLoc = new LatLng(49.229412, -123.190269);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(parkLoc, 16));
+            for(Location n : artLocation){
+                mMap.addMarker(new MarkerOptions().position(new LatLng(n.getX(), n.getY())).title(n.getName()));
+            }
+            LocAdapter markerInfoWindowAdapter = new LocAdapter(getApplicationContext());
+            googleMap.setInfoWindowAdapter(markerInfoWindowAdapter);
         }
 
     }
 
     public void back(View view){
+        getPoint();
         etArtName = findViewById(R.id.etArtifactName);
         name = etArtName.getText().toString();
         Intent intent = new Intent();
         intent.putExtra("name", name);
         intent.putExtra("position", position);
+        intent.putExtra("x", x);
+        intent.putExtra("y", y);
         setResult(RESULT_OK, intent);
         finish();
     }
