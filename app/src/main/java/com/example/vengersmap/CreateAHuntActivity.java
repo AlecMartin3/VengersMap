@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -49,6 +50,10 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
     private Spinner parkSpinner;
     private DatabaseReference databaseReading;
     private Button createHunt;
+    private EditText etHuntName;
+    private EditText etHuntPass;
+    private String huntName;
+    private String huntPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +64,10 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         databaseReading = database.getReference("hunts");
 
-
+        etHuntName = findViewById(R.id.etHuntName);
+        etHuntPass = findViewById(R.id.etHuntPass);
 
         createHunt = findViewById(R.id.btnCreateHunt);
-
         createHunt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,9 +152,12 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
 
     public void addHunt(){
         String id = databaseReading.push().getKey();
-        for(Artifact a : artifactList){
-            Task setValueTask = databaseReading.child(id).setValue(a);
-        }
+        huntName = etHuntName.getText().toString();
+        huntPass = etHuntPass.getText().toString();
+        Task setNameTask = databaseReading.child(id).child("Name").setValue(huntName);
+        Task setPassword = databaseReading.child(id).child("Password").setValue(huntPass);
+        Task setArtifactTask = databaseReading.child(id).child("Artifacts").setValue(artifactList);
+        finish();
     }
 
     @Override
