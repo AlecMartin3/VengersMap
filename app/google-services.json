@@ -10,10 +10,47 @@
       "client_info": {
         "mobilesdk_app_id": "1:148948999139:android:ee0e2c5855ecc8c5911ed6",
         "android_client_info": {
+          "package_name": "com.example.VengersMap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148948999139-pl5enauabjrcep4quqijc6pi112dbtlf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMXSXh-5g28Hci7zlujuoaBo_SBp9Rkks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148948999139-pl5enauabjrcep4quqijc6pi112dbtlf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148948999139:android:64b2715888ee39d0911ed6",
+        "android_client_info": {
           "package_name": "com.example.vengersmap"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "148948999139-6db6tgk9joc32llonlbj49f1g2058hgl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vengersmap",
+            "certificate_hash": "259a2027c64904cd53851b48459cb2cb2f816dfe"
+          }
+        },
         {
           "client_id": "148948999139-pl5enauabjrcep4quqijc6pi112dbtlf.apps.googleusercontent.com",
           "client_type": 3
