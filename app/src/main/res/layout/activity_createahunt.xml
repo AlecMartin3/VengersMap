@@ -33,22 +33,6 @@
         android:hint="@string/HuntPass" />
 
     <TextView
-        android:id="@+id/tvWhichPark"
-        android:textSize="18dp"
-        android:textColor="@color/colorPrimaryDark"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/WhichPark" />
-
-    <Spinner
-        android:id="@+id/spinnerPark"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:entries="@array/spinnerParks"/>
-
-    <TextView
         android:id="@+id/tvObjects"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18dp"
@@ -72,6 +56,22 @@
         android:text="1"
         android:layout_weight="1"
         android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/tvWhichPark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/WhichPark"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18dp" />
+
+    <Spinner
+        android:id="@+id/spinnerPark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:entries="@array/spinnerParks" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
