@@ -29,6 +29,7 @@ public class AddArtifact extends FragmentActivity implements OnMapReadyCallback,
     private Spinner spinnerPoint;
     private double x;
     private double y;
+    private Marker myMarker;
     public SupportMapFragment mapFragment;
 
 
@@ -343,7 +344,44 @@ public class AddArtifact extends FragmentActivity implements OnMapReadyCallback,
             LocAdapter markerInfoWindowAdapter = new LocAdapter(getApplicationContext());
             googleMap.setInfoWindowAdapter(markerInfoWindowAdapter);
         }
-
+        //changes spinner based on which marker has been selected
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                if(marker.getTitle().equals("Point 1")){
+                    spinnerPoint = (Spinner) findViewById(R.id.spinnerPoint);
+                    spinnerPoint.setSelection(0);
+                } else if(marker.getTitle().equals("Point 2")){
+                    spinnerPoint = (Spinner) findViewById(R.id.spinnerPoint);
+                    spinnerPoint.setSelection(1);
+                } else if(marker.getTitle().equals("Point 3")){
+                    spinnerPoint = (Spinner) findViewById(R.id.spinnerPoint);
+                    spinnerPoint.setSelection(2);
+                } else if(marker.getTitle().equals("Point 4")){
+                    spinnerPoint = (Spinner) findViewById(R.id.spinnerPoint);
+                    spinnerPoint.setSelection(3);
+                } else if(marker.getTitle().equals("Point 5")){
+                    spinnerPoint = (Spinner) findViewById(R.id.spinnerPoint);
+                    spinnerPoint.setSelection(4);
+                } else if(marker.getTitle().equals("Point 6")){
+                    spinnerPoint = (Spinner) findViewById(R.id.spinnerPoint);
+                    spinnerPoint.setSelection(5);
+                } else if(marker.getTitle().equals("Point 7")){
+                    spinnerPoint = (Spinner) findViewById(R.id.spinnerPoint);
+                    spinnerPoint.setSelection(6);
+                } else if(marker.getTitle().equals("Point 8")){
+                    spinnerPoint = (Spinner) findViewById(R.id.spinnerPoint);
+                    spinnerPoint.setSelection(7);
+                } else if(marker.getTitle().equals("Point 9")){
+                    spinnerPoint = (Spinner) findViewById(R.id.spinnerPoint);
+                    spinnerPoint.setSelection(8);
+                } else if(marker.getTitle().equals("Point 10")){
+                    spinnerPoint = (Spinner) findViewById(R.id.spinnerPoint);
+                    spinnerPoint.setSelection(9);
+                }
+                return false;
+            }
+        });
     }
 
     /**
@@ -352,7 +390,7 @@ public class AddArtifact extends FragmentActivity implements OnMapReadyCallback,
      *
      * @param view
      */
-    public void back(View view){
+    public void back(View view) {
         getPoint();
         etArtName = findViewById(R.id.etArtifactName);
         name = etArtName.getText().toString();
@@ -364,4 +402,5 @@ public class AddArtifact extends FragmentActivity implements OnMapReadyCallback,
         setResult(RESULT_OK, intent);
         finish();
     }
+
 }

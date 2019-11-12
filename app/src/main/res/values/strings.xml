@@ -11,7 +11,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="CreateHunt">Create a Hunt</string>
-    <string name="WhichPark">Select a Park?</string>
+    <string name="WhichPark">Select a Park</string>
     <string name="HowManyObj">How many artifacts in your hunt?</string>
     <string name="testBut">Map</string>
     <string name="hintEmail">Email</string>
@@ -24,11 +24,13 @@
     <string name="lobbyPark">Park:</string>
     <string name="lobbyPlayers">Players:</string>
     <string name="locationPicker">Pick a location</string>
-    <string name="artName">Artifact Name:</string>
+    <string name="artName">Artifact Name</string>
     <string name="enterName">Enter Name</string>
     <string name="ok">Ok</string>
     <string name="createHunt">Create Hunt</string>
     <string name="JoinHunt">Join a Hunt</string>
     <string name="HuntName">Enter a Hunt name</string>
-    <string name="HuntPass">Enter a Password for your Hunt</string>
+    <string name="HuntPass">Enter a Hunt password</string>
+    <string name="EditArtifacts">Edit your Artifacts</string>
+    <string name="EditArtifact">Edit Artifact</string>
 </resources>
