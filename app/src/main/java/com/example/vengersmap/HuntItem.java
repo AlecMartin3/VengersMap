@@ -4,12 +4,14 @@ public class HuntItem {
     private String huntName;
     private String huntPassword;
     private String huntPark;
+    private String id;
 
 
 
     public HuntItem() {}
 
-    public HuntItem(String huntName, String huntPassword, String huntPark){
+    public HuntItem(String id, String huntName, String huntPassword, String huntPark){
+        this.id = id;
         this.huntName = huntName;
         this.huntPassword = huntPassword;
         this.huntPark = huntPark;
@@ -35,6 +37,13 @@ public class HuntItem {
 
     public void setHuntPark(String huntPark) {
         this.huntPark = huntPark;
+    }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
 

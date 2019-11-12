@@ -175,7 +175,7 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
         parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
         String park = parkSpinner.getSelectedItem().toString();
         HuntItem hunt = null;
-        hunt = new HuntItem(huntName, huntPass, park);
+        hunt = new HuntItem(id, huntName, huntPass, park);
         Task setPark = databaseHunt.child(id).child("Park").setValue(park);
         Task setNameTask = databaseHunt.child(id).child("Name").setValue(huntName);
         Task setPassword = databaseHunt.child(id).child("Password").setValue(huntPass);

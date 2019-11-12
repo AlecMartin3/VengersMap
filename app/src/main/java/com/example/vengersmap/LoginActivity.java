@@ -54,10 +54,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
     public void goToRegister(View view){
+
         Intent intent = null;
         if(view.getId()== R.id.goToRegisterBut){
             intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
         }
+        finish();
     }
 }

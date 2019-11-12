@@ -43,6 +43,7 @@ public class LobbyListActivity extends AppCompatActivity {
                 HuntItem hunts = HuntList.get(position);
 
                 showPasswordDialog(
+                        hunts.getId(),
                         hunts.getHuntPassword());
             }
         });
@@ -56,6 +57,7 @@ public class LobbyListActivity extends AppCompatActivity {
                 HuntList.clear();
                 for (DataSnapshot huntSnapshot : dataSnapshot.getChildren()) {
                     HuntItem hunt = huntSnapshot.getValue(HuntItem.class);
+                    hunt.setId(huntSnapshot.getKey());
                     hunt.setHuntName(huntSnapshot.child("Name").getValue().toString());
                     hunt.setHuntPark(huntSnapshot.child("Park").getValue().toString());
                     hunt.setHuntPassword(huntSnapshot.child("Password").getValue().toString());
@@ -70,7 +72,7 @@ public class LobbyListActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
     }
-    private void showPasswordDialog( final String password){
+    private void showPasswordDialog(final String id,  final String password){
         if(!(password.equals(""))) {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
@@ -88,15 +90,20 @@ public class LobbyListActivity extends AppCompatActivity {
 
                     String etPassword = editPassword.getText().toString().trim();
                     if (etPassword.equals(password)) {
-                        Intent intent = new Intent(LobbyListActivity.this, StartupActivity.class);
+
+                        Intent intent = new Intent(LobbyListActivity.this, ArtifactListActivity.class);
+                        System.out.println(id);
+                        intent.putExtra("StringID", id);
                         startActivity(intent);
+
                     }
 
 
                 }
             });
         }else{
-            Intent intent = new Intent(LobbyListActivity.this, StartupActivity.class);
+            Intent intent = new Intent(LobbyListActivity.this, ArtifactListActivity.class);
+            intent.putExtra("StringID", id);
             startActivity(intent);
         }
     }
