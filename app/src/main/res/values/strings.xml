@@ -33,4 +33,6 @@
     <string name="HuntPass">Enter a Hunt password</string>
     <string name="EditArtifacts">Edit your Artifacts</string>
     <string name="EditArtifact">Edit Artifact</string>
+    <string name="tvUserLabel">Email: </string>
+    <string name="btnChange">Change</string>
 </resources>
