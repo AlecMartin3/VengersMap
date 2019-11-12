@@ -33,4 +33,5 @@
     <string name="HuntPass">Enter a Hunt password</string>
     <string name="EditArtifacts">Edit your Artifacts</string>
     <string name="EditArtifact">Edit Artifact</string>
+    <string name="HuntNamePass">Enter Hunt name and password</string>
 </resources>

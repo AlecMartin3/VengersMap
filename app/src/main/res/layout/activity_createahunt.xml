@@ -4,15 +4,13 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tvCreateHunt"
-        android:gravity="center"
-        android:textSize="35dp"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
+        android:id="@+id/tvArtifactName"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:textSize="18dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/CreateHunt" />
+        android:text="@string/HuntNamePass" />
 
     <EditText
         android:id="@+id/etHuntName"
@@ -82,7 +80,7 @@
         android:layout_height="220dp"
         android:layout_weight="1"
         android:layout_margin="5dp"
-        android:background="@drawable/border"
+        android:background="@color/colorPrimary"
         tools:context=".CreateAHuntActivity" />
 
     <TextView
