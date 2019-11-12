@@ -48,7 +48,7 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
     private List<Artifact> artifactList;
     private TextView tvSeek;
     private Spinner parkSpinner;
-    private DatabaseReference databaseReading;
+    private DatabaseReference databaseHunt;
     private Button createHunt;
     private EditText etHuntName;
     private EditText etHuntPass;
@@ -60,9 +60,8 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_createahunt);
 
-        System.out.println("test");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        databaseReading = database.getReference("hunts");
+        databaseHunt = database.getReference("hunts");
 
         etHuntName = findViewById(R.id.etHuntName);
         etHuntPass = findViewById(R.id.etHuntPass);
@@ -151,15 +150,17 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
     }
 
     public void addHunt(){
-        String id = databaseReading.push().getKey();
+        String id = databaseHunt.push().getKey();
         huntName = etHuntName.getText().toString();
         huntPass = etHuntPass.getText().toString();
         parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
         String park = parkSpinner.getSelectedItem().toString();
-        Task setPark = databaseReading.child(id).child("Park").setValue(park);
-        Task setNameTask = databaseReading.child(id).child("Name").setValue(huntName);
-        Task setPassword = databaseReading.child(id).child("Password").setValue(huntPass);
-        Task setArtifactTask = databaseReading.child(id).child("Artifacts").setValue(artifactList);
+        HuntItem hunt = null;
+        hunt = new HuntItem(huntName, huntPass, park);
+        Task setPark = databaseHunt.child(id).child("Park").setValue(park);
+        Task setNameTask = databaseHunt.child(id).child("Name").setValue(huntName);
+        Task setPassword = databaseHunt.child(id).child("Password").setValue(huntPass);
+        Task setArtifactTask = databaseHunt.child(id).child("Artifacts").setValue(artifactList);
         finish();
     }
 
