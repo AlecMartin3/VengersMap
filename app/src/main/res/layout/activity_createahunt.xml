@@ -7,7 +7,7 @@
         android:id="@+id/tvArtifactName"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/HuntNamePass" />
@@ -33,9 +33,10 @@
     <TextView
         android:id="@+id/tvObjects"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_weight="1"
         android:text="@string/HowManyObj"/>
 
@@ -62,7 +63,7 @@
         android:layout_weight="1"
         android:text="@string/WhichPark"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="18dp" />
+        android:textSize="18sp" />
 
     <Spinner
         android:id="@+id/spinnerPark"
@@ -86,7 +87,7 @@
     <TextView
         android:id="@+id/tvEditArtifacts"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"

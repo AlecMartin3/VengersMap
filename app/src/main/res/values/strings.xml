@@ -29,8 +29,8 @@
     <string name="ok">Ok</string>
     <string name="createHunt">Create Hunt</string>
     <string name="JoinHunt">Join a Hunt</string>
-    <string name="HuntName">Enter a Hunt name</string>
-    <string name="HuntPass">Enter a Hunt password</string>
+    <string name="HuntName">name</string>
+    <string name="HuntPass">password</string>
     <string name="EditArtifacts">Edit your Artifacts</string>
     <string name="EditArtifact">Edit Artifact</string>
     <string name="HuntNamePass">Enter Hunt name and password</string>
