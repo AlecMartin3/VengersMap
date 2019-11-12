@@ -6,7 +6,7 @@ public class Artifact implements Serializable {
     private String artName;
     private double x;
     private double y;
-
+    Artifact(){}
     Artifact(String artName){
         this.artName = artName;
     }
