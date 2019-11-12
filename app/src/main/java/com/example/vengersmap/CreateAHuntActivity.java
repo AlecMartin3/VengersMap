@@ -24,6 +24,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -178,6 +179,13 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
         Task setNameTask = databaseReading.child(id).child("Name").setValue(huntName);
         Task setPassword = databaseReading.child(id).child("Password").setValue(huntPass);
         Task setArtifactTask = databaseReading.child(id).child("Artifacts").setValue(artifactList);
+        setArtifactTask.addOnSuccessListener(new OnSuccessListener() {
+            @Override
+            public void onSuccess(Object o) {
+                Toast.makeText(CreateAHuntActivity.this,
+                        "Hunt Added",Toast.LENGTH_LONG).show();
+            }
+        });
         finish();
     }
 
@@ -287,8 +295,23 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
         }
         LocAdapter markerInfoWindowAdapter = new LocAdapter(getApplicationContext());
         googleMap.setInfoWindowAdapter(markerInfoWindowAdapter);
-//        Marker m1 = mMap.addMarker(new MarkerOptions().position(vancouver).title("van"));
 
-
+        //changes spinner based on which marker has been selected
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                if(marker.getTitle().equals("Strathcona Park")){
+                    parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
+                    parkSpinner.setSelection(0);
+                } else if(marker.getTitle().equals("Jericho Beach Park")){
+                    parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
+                    parkSpinner.setSelection(1);
+                } else if(marker.getTitle().equals("Musqueam Park")){
+                    parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
+                    parkSpinner.setSelection(2);
+                }
+                return false;
+            }
+        });
     }
 }
