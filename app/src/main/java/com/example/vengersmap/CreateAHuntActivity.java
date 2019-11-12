@@ -49,7 +49,7 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
     private List<Artifact> artifactList;
     private TextView tvSeek;
     private Spinner parkSpinner;
-    private DatabaseReference databaseReading;
+    private DatabaseReference databaseHunt;
     private Button createHunt;
     private EditText etHuntName;
     private EditText etHuntPass;
@@ -63,7 +63,7 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
 
         //Gets to our database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        databaseReading = database.getReference("hunts");
+        databaseHunt = database.getReference("hunts");
 
         etHuntName = findViewById(R.id.etHuntName);
         etHuntPass = findViewById(R.id.etHuntPass);
@@ -170,11 +170,14 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
      * and adds that as well.
      */
     public void addHunt(){
-        String id = databaseReading.push().getKey();
+        String id = databaseHunt.push().getKey();
         huntName = etHuntName.getText().toString();
         huntPass = etHuntPass.getText().toString();
         parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
         String park = parkSpinner.getSelectedItem().toString();
+
+        HuntItem hunt = null;
+        hunt = new HuntItem(huntName, huntPass, park);
         Task setPark = databaseReading.child(id).child("Park").setValue(park);
         Task setNameTask = databaseReading.child(id).child("Name").setValue(huntName);
         Task setPassword = databaseReading.child(id).child("Password").setValue(huntPass);

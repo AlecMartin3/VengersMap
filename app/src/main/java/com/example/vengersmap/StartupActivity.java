@@ -35,6 +35,10 @@ public class StartupActivity extends AppCompatActivity {
                 intent = new Intent(StartupActivity.this, CreateAHuntActivity.class);
                 startActivity(intent);
             }
+            if(view.getId()== R.id.launchJoinAHunt){
+                intent = new Intent(StartupActivity.this, LobbyListActivity.class);
+                startActivity(intent);
+            }
 
         }
 
