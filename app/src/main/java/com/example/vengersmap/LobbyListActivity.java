@@ -71,29 +71,33 @@ public class LobbyListActivity extends AppCompatActivity {
         });
     }
     private void showPasswordDialog( final String password){
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        if(!(password.equals(""))) {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
-        LayoutInflater inflater = getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.password_dialog, null);
-        dialogBuilder.setView(dialogView);
-        final EditText editPassword = dialogView.findViewById(R.id.editPassword);
-        final Button btnPassword = dialogView.findViewById(R.id.btnPassword);
-        dialogBuilder.setTitle("Enter a password: ");
-        final AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
-        btnPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            LayoutInflater inflater = getLayoutInflater();
+            final View dialogView = inflater.inflate(R.layout.password_dialog, null);
+            dialogBuilder.setView(dialogView);
+            final EditText editPassword = dialogView.findViewById(R.id.editPassword);
+            final Button btnPassword = dialogView.findViewById(R.id.btnPassword);
+            dialogBuilder.setTitle("Enter a password: ");
+            final AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.show();
+            btnPassword.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                String etPassword = editPassword.getText().toString().trim();
-                if(etPassword.equals(password)){
-                    Intent intent = new Intent(LobbyListActivity.this, StartupActivity.class);
-                    startActivity(intent);
+                    String etPassword = editPassword.getText().toString().trim();
+                    if (etPassword.equals(password)) {
+                        Intent intent = new Intent(LobbyListActivity.this, StartupActivity.class);
+                        startActivity(intent);
+                    }
+
+
                 }
-
-
-
-            }
-        });
+            });
+        }else{
+            Intent intent = new Intent(LobbyListActivity.this, StartupActivity.class);
+            startActivity(intent);
+        }
     }
 }
