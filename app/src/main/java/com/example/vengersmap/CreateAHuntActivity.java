@@ -60,12 +60,14 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_createahunt);
 
+        //Gets to our database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         databaseHunt = database.getReference("hunts");
 
         etHuntName = findViewById(R.id.etHuntName);
         etHuntPass = findViewById(R.id.etHuntPass);
 
+        //click listener for the create a hunt button
         createHunt = findViewById(R.id.btnCreateHunt);
         createHunt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +76,7 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
             }
         });
 
+        //Seek bar used to allow the user to choose how many artifacts they want to add to the hunt
         SeekBar sk = (SeekBar) findViewById(R.id.sbHuntObjects);
         sk.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -107,10 +110,11 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
             }
         });
 
+        //Adds artifacts into the artifact list view
         lvArtifacts = findViewById(R.id.lvArtifacts);
         artifactList = new ArrayList<Artifact>();
-
         lvArtifacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            //When artifact in the list view is clicked, opens new addArtifact activity and passes needed information
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
                 Intent appInfo = new Intent(CreateAHuntActivity.this, AddArtifact.class);
@@ -131,6 +135,16 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
 
     }
 
+    /**
+     * When the OK buttons is pressed on the AddArtifact Activity, this function receives the needed information
+     * of each artifact and updates the name, x, y values in the correct position of the artifact array list.
+     *
+     * Also displays an updated artifact with the new name in the artifact listview.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
@@ -149,6 +163,11 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
         }
     }
 
+    /**
+     * Adds the hunt to the database. Creates a unique id for each hunt and gets the name and password
+     * from the edit texts above and passes them into the database. Also gets the list of artifacts
+     * and adds that as well.
+     */
     public void addHunt(){
         String id = databaseHunt.push().getKey();
         huntName = etHuntName.getText().toString();
@@ -170,6 +189,9 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
     }
 
 
+    /**
+     * Gets the location data of the three parks we have chosen for our hunts from the opendata URL
+     */
     private class getLocations extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -207,9 +229,6 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
                         }
 
                     }
-
-
-
                 } catch (final JSONException e) {
                     e.printStackTrace();
                     runOnUiThread(new Runnable() {
@@ -253,6 +272,12 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
 
         }
     }
+
+    /**
+     * Creates the google map that is zoomed into the area that we need to see all the parks
+     *
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
