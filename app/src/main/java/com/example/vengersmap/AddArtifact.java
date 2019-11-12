@@ -50,6 +50,9 @@ public class AddArtifact extends FragmentActivity implements OnMapReadyCallback,
 
     }
 
+    /**
+     * Creates locations for points depending on which park was selected
+     */
     public void createLocation(){
         if(park.equals("Strathcona Park")){
             Location strath1 = new Location();
@@ -240,6 +243,9 @@ public class AddArtifact extends FragmentActivity implements OnMapReadyCallback,
 
     }
 
+    /**
+     * Gets the x and y coord based on which point was selected
+     */
     public void getPoint(){
         spinnerPoint = (Spinner) findViewById(R.id.spinnerPoint);
         String point = spinnerPoint.getSelectedItem().toString();
@@ -297,6 +303,11 @@ public class AddArtifact extends FragmentActivity implements OnMapReadyCallback,
 
     }
 
+    /**
+     * Creates a map with markers on points based on which park was selected on the spinner in the previous
+     * CreateAHunt activity.
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -335,6 +346,12 @@ public class AddArtifact extends FragmentActivity implements OnMapReadyCallback,
 
     }
 
+    /**
+     * calls the getPoint function to grab x and y coord. Gets the artifact name and positions,
+     * then passes all the info back to the CreateAHunt activity and closes the activity.
+     *
+     * @param view
+     */
     public void back(View view){
         getPoint();
         etArtName = findViewById(R.id.etArtifactName);
