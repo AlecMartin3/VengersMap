@@ -5,8 +5,10 @@
 
     <EditText
         android:id="@+id/Email"
-        android:layout_width="match_parent"
+        android:layout_marginTop="250dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:ems="10"
         android:hint="@string/hintEmail"
         android:inputType="textPersonName"
@@ -14,20 +16,31 @@
 
     <EditText
         android:id="@+id/Password"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:ems="10"
+        android:layout_marginBottom="25dp"
         android:hint="@string/hintPassword"
         android:inputType="textPassword" />
 
     <Button
         android:id="@+id/registerBut"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
         android:text="@string/RegisterBut" />
     <Button
         android:id="@+id/goToLoginBut"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
         android:layout_height="wrap_content"
         android:onClick="goToLogin"
         android:text="@string/goToLoginBut" />

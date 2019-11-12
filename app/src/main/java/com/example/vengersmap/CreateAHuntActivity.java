@@ -178,10 +178,10 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
 
         HuntItem hunt = null;
         hunt = new HuntItem(huntName, huntPass, park);
-        Task setPark = databaseReading.child(id).child("Park").setValue(park);
-        Task setNameTask = databaseReading.child(id).child("Name").setValue(huntName);
-        Task setPassword = databaseReading.child(id).child("Password").setValue(huntPass);
-        Task setArtifactTask = databaseReading.child(id).child("Artifacts").setValue(artifactList);
+        Task setPark = databaseHunt.child(id).child("Park").setValue(park);
+        Task setNameTask = databaseHunt.child(id).child("Name").setValue(huntName);
+        Task setPassword = databaseHunt.child(id).child("Password").setValue(huntPass);
+        Task setArtifactTask = databaseHunt.child(id).child("Artifacts").setValue(artifactList);
         setArtifactTask.addOnSuccessListener(new OnSuccessListener() {
             @Override
             public void onSuccess(Object o) {
