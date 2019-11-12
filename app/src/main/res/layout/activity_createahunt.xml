@@ -7,6 +7,7 @@
         android:id="@+id/tvCreateHunt"
         android:gravity="center"
         android:textSize="35dp"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,6 +35,7 @@
     <TextView
         android:id="@+id/tvWhichPark"
         android:textSize="18dp"
+        android:textColor="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -48,6 +50,7 @@
 
     <TextView
         android:id="@+id/tvObjects"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="18dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,6 +66,7 @@
 
     <TextView
         android:id="@+id/tvSeekBar"
+        android:textColor="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="1"
@@ -83,6 +87,7 @@
 
     <TextView
         android:id="@+id/tvEditArtifacts"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="18dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -92,6 +97,7 @@
 
     <ListView
         android:layout_weight="1"
+        android:textColor="@color/colorPrimaryDark"
         android:id="@+id/lvArtifacts"
         android:layout_width="match_parent"
         android:layout_height="150dp" />

@@ -3,29 +3,20 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
+    <Button
+        android:id="@+id/launchProfile"
+        android:layout_width="200dp"
+        android:textColor="@color/white"
         android:layout_marginTop="250dp"
-        android:id="@+id/Email"
-        android:layout_width="300dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/hintEmail"
-        android:inputType="textPersonName"
-        />
-
-    <EditText
-        android:id="@+id/Password"
-        android:layout_width="300dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
         android:layout_marginBottom="25dp"
-        android:ems="10"
-        android:hint="@string/hintPassword"
-        android:inputType="textPassword" />
-
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content"
+        android:onClick="ProfileCreateJoin"
+        android:text="@string/profile_page_title" />
     <Button
-        android:id="@+id/loginBut"
+        android:id="@+id/launchCreateAHunt"
         android:layout_width="200dp"
         android:layout_marginBottom="25dp"
         android:textColor="@color/white"
@@ -33,16 +24,18 @@
         android:layout_gravity="center"
         android:background="@color/colorPrimary"
         android:layout_height="wrap_content"
-        android:text="@string/LoginBut" />
+        android:onClick="ProfileCreateJoin"
+        android:text="@string/CreateHunt" />
+
     <Button
-        android:id="@+id/goToRegisterBut"
+        android:id="@+id/launchJoinAHunt"
         android:layout_width="200dp"
         android:textColor="@color/white"
         android:gravity="center"
         android:layout_gravity="center"
         android:background="@color/colorPrimary"
         android:layout_height="wrap_content"
-        android:onClick="goToRegister"
-        android:text="@string/goToRegisterBut" />
+        android:onClick="ProfileCreateJoin"
+        android:text="@string/JoinHunt" />
 
 </LinearLayout>
