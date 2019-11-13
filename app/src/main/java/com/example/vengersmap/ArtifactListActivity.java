@@ -132,9 +132,11 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSIONS_REQUEST_FINE_LOCATION);
             System.out.println("REQUESTING PERMISSION");
-
+            finish();
+            ActivityCompat.recreate(this);
             return;
         }
+
         /**
          * Requests the current location periodically
          */
