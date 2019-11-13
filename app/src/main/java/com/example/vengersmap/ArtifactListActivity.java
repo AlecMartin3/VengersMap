@@ -39,7 +39,7 @@ import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArtifactListActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class ArtifactListActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
     private DatabaseReference databaseArtifact;
     private ListView lvArtifact;
@@ -128,52 +128,62 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
             System.out.println("PERMISSION DENIED");
             return;
         }
-
         /**
-         * Get last known position and move camera here.
-         * Use location manager to request location updates.
-         * Please move the marked line's location to where it is needed.
+         * Requests the current location periodically
          */
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (location != null) {
-            double longitude = location.getLongitude();
-            double latitude = location.getLatitude();
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
-
-            // Not sure where to put this line here to check for updates; please relocate
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
-
-        }
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 15, this);
     }
 
-    /**
-     * Location listener to update location and move camera to that location
-     */
-    private final LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
+    @Override
+    public void onLocationChanged(Location location) {
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+        mMap.moveCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15)));
+    }
 
-            double longitude, latitude;
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
 
-        }
+    }
 
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {
+    @Override
+    public void onProviderEnabled(String s) {
 
-        }
+    }
 
-        @Override
-        public void onProviderEnabled(String s) {
+    @Override
+    public void onProviderDisabled(String s) {
 
-        }
+    }
 
-        @Override
-        public void onProviderDisabled(String s) {
-
-        }
-    };
+//    /**
+//     * Location listener to update location and move camera to that location
+//     */
+//    private final LocationListener locationListener = new LocationListener() {
+//        public void onLocationChanged(Location location) {
+//
+//            double longitude, latitude;
+//            longitude = location.getLongitude();
+//            latitude = location.getLatitude();
+//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
+//
+//        }
+//
+//        @Override
+//        public void onStatusChanged(String s, int i, Bundle bundle) {
+//
+//        }
+//
+//        @Override
+//        public void onProviderEnabled(String s) {
+//
+//        }
+//
+//        @Override
+//        public void onProviderDisabled(String s) {
+//
+//        }
+//    };
 
 
 
