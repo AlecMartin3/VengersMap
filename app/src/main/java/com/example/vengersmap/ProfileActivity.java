@@ -34,6 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
         Button logoutBtn = findViewById(R.id.logoutBtn);
+        FloatingActionButton backFab = findViewById(R.id.backFab);
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +44,18 @@ public class ProfileActivity extends AppCompatActivity {
                 intent.addFlags((Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+            }
+        });
+
+        backFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = null;
+                if(view.getId()== R.id.goToLoginBut){
+                    intent = new Intent(ProfileActivity.this, SplashActivity.class);
+                    startActivity(intent);
+                }
+                finish();
             }
         });
     }

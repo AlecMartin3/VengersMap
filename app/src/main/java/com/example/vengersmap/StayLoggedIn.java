@@ -16,7 +16,7 @@ public class StayLoggedIn extends Application {
         FirebaseUser firebaseuser = firebaseAuth.getCurrentUser();
 
         if(firebaseuser != null){
-            Intent intent = new Intent(StayLoggedIn.this, ProfileActivity.class);
+            Intent intent = new Intent(StayLoggedIn.this, SplashActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
