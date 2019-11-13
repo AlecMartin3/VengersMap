@@ -53,6 +53,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     private LocationManager locationManager;
     private static final float MIN_TIME = 400;
     private static final float MIN_DISTANCE = 1000;
+    static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 99;
 
 
     @Override
@@ -129,7 +130,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
 
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    99);
+                    MY_PERMISSIONS_REQUEST_FINE_LOCATION);
             System.out.println("REQUESTING PERMISSION");
 
             return;
@@ -144,9 +145,9 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     public void onLocationChanged(Location location) {
         double longitude = location.getLongitude();
         double latitude = location.getLatitude();
-        mMap.moveCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15)));
+//        mMap.moveCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15)));
         // Does this look good or bad? test pls
-//        mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15)));
+        mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15)));
     }
 
     @Override
