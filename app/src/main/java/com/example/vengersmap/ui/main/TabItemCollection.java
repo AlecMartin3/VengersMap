@@ -53,9 +53,9 @@ public class TabItemCollection extends Fragment {
     }
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        databaseArtifact = FirebaseDatabase.getInstance().getReference("hunts").child(id);
-//        lvArtifact = findViewById(R.id.lvArtifacts);
-        ArtifactList = new ArrayList<Artifact>();
+//        databaseArtifact = FirebaseDatabase.getInstance().getReference("hunts").child(id);
+////        lvArtifact = findViewById(R.id.lvArtifacts);
+//        ArtifactList = new ArrayList<Artifact>();
     }
 
     // TODO: Customize parameter initialization
