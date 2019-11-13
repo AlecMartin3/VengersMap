@@ -15,18 +15,26 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity {
-    EditText email;
-    EditText password;
-    Button register;
-    FirebaseAuth firebaseAuth;
+    private EditText email;
+    private EditText password;
+    private Button register;
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference databasePlayer;
+    private List<Artifact> artifactList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        databasePlayer = database.getReference("players");
         email = findViewById(R.id.Email);
         password = findViewById(R.id.Password);
         register = findViewById(R.id.registerBut);
@@ -34,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+
                 firebaseAuth.createUserWithEmailAndPassword((email.getText().toString()),
                         password.getText().toString())
                         .addOnCompleteListener((new OnCompleteListener<AuthResult>() {
@@ -43,6 +52,9 @@ public class RegisterActivity extends AppCompatActivity {
                                     Toast.makeText(RegisterActivity.this,
                                             "Registered Successfully",
                                             Toast.LENGTH_LONG).show();
+                                    String id = databasePlayer.push().getKey();
+                                    Task setEmail = databasePlayer.child(id).child("Email").setValue(email.getText().toString());
+                                    Task setArtifactTask = databasePlayer.child(id).child("Artifacts").setValue(artifactList);
                                     email.setText("");
                                     password.setText("");
                                 }else{
