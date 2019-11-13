@@ -132,6 +132,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSIONS_REQUEST_FINE_LOCATION);
             System.out.println("REQUESTING PERMISSION");
+
             finish();
             ActivityCompat.recreate(this);
             return;
@@ -140,7 +141,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         /**
          * Requests the current location periodically
          */
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 15, this);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 15, this);
     }
 
     @Override
