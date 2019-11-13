@@ -3,17 +3,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <TextView
-        android:id="@+id/tvCreateHunt"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:text="@string/CreateHunt" />
-
     <TextView
         android:id="@+id/tvArtifactName"
+        android:layout_marginTop="10dp"
+        android:textSize="18dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/artName" />
@@ -30,6 +23,7 @@
 
     <TextView
         android:id="@+id/tvLocation"
+        android:textSize="18dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -50,6 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="450dp"
         android:layout_weight="1"
+        android:layout_margin="5dp"
         tools:context=".CreateAHuntActivity" />
 
     <Button
@@ -58,6 +53,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_weight="1"
+        android:layout_margin="5dp"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
         android:onClick="back"
         android:text="@string/ok" />
 

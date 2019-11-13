@@ -70,16 +70,6 @@ public class TabInformation extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-//        userEmail = getView().findViewById(R.id.tvUserEmail);
-//        firebaseAuth = FirebaseAuth.getInstance();
-//        firebaseUser = firebaseAuth.getCurrentUser();
-//
-//        userEmail.setText(firebaseUser.getEmail());
-//        userEmail.setText("Testing123");
-
-
-
     }
 
     @Override
@@ -96,7 +86,6 @@ public class TabInformation extends Fragment {
         firebaseUser = firebaseAuth.getCurrentUser();
 
         userEmail.setText(firebaseUser.getEmail());
-//        userEmail.setText("Testing123");
     }
 
     // TODO: Rename method, update argument and hook method into UI event

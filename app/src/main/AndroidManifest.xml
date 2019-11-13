@@ -7,6 +7,7 @@
          location permissions for the 'MyLocation' functionality.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -18,7 +19,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ArtifactListActivity"></activity>
-        <activity android:name=".LobbyListActivity" />
+        <activity android:name=".LobbyListActivity"
+            android:label="@string/JoinHunt"/>
+        <activity android:name=".CreateAHuntActivity"
+            android:label="@string/CreateHunt"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
@@ -32,8 +37,10 @@
             <!-- </intent-filter> -->
 
         </activity>
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".RegisterActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -49,17 +56,20 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".CreateAHuntActivity" />
-        <activity android:name=".AddArtifact" />
+        <activity android:name=".AddArtifact"
+            android:label="@string/EditArtifact"/>
+        <activity android:name=".SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".StartupActivity"
-            android:label="@string/title_activity_maps">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

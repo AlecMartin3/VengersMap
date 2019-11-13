@@ -1,5 +1,6 @@
 package com.example.vengersmap;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.ProgressDialog;
@@ -24,6 +25,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -35,7 +37,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class CreateAHuntActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
     private String TAG = StartupActivity.class.getSimpleName();
@@ -174,12 +176,20 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
         huntPass = etHuntPass.getText().toString();
         parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
         String park = parkSpinner.getSelectedItem().toString();
+
         HuntItem hunt = null;
         hunt = new HuntItem(id, huntName, huntPass, park);
         Task setPark = databaseHunt.child(id).child("Park").setValue(park);
         Task setNameTask = databaseHunt.child(id).child("Name").setValue(huntName);
         Task setPassword = databaseHunt.child(id).child("Password").setValue(huntPass);
         Task setArtifactTask = databaseHunt.child(id).child("Artifacts").setValue(artifactList);
+        setArtifactTask.addOnSuccessListener(new OnSuccessListener() {
+            @Override
+            public void onSuccess(Object o) {
+                Toast.makeText(CreateAHuntActivity.this,
+                        "Hunt Added",Toast.LENGTH_LONG).show();
+            }
+        });
         finish();
     }
 
@@ -289,8 +299,23 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
         }
         LocAdapter markerInfoWindowAdapter = new LocAdapter(getApplicationContext());
         googleMap.setInfoWindowAdapter(markerInfoWindowAdapter);
-//        Marker m1 = mMap.addMarker(new MarkerOptions().position(vancouver).title("van"));
 
-
+        //changes spinner based on which marker has been selected
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                if(marker.getTitle().equals("Strathcona Park")){
+                    parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
+                    parkSpinner.setSelection(0);
+                } else if(marker.getTitle().equals("Jericho Beach Park")){
+                    parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
+                    parkSpinner.setSelection(1);
+                } else if(marker.getTitle().equals("Musqueam Park")){
+                    parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
+                    parkSpinner.setSelection(2);
+                }
+                return false;
+            }
+        });
     }
 }
