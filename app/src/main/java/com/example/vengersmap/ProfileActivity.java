@@ -2,7 +2,18 @@ package com.example.vengersmap;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -27,9 +38,10 @@ public class ProfileActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-        FloatingActionButton fab = findViewById(R.id.fab);
+        Button logoutBtn = findViewById(R.id.logoutBtn);
+        FloatingActionButton backFab = findViewById(R.id.backFab);
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
@@ -37,6 +49,18 @@ public class ProfileActivity extends AppCompatActivity {
                 intent.addFlags((Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+            }
+        });
+
+        backFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = null;
+                if(view.getId()== R.id.goToLoginBut){
+                    intent = new Intent(ProfileActivity.this, SplashActivity.class);
+                    startActivity(intent);
+                }
+                finish();
             }
         });
     }

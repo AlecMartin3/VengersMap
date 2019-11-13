@@ -3,6 +3,7 @@ package com.example.vengersmap.ui.main;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,11 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.example.vengersmap.Artifact;
 import com.example.vengersmap.R;
 import com.example.vengersmap.ui.main.dummy.DummyContent;
-import com.example.vengersmap.ui.main.dummy.DummyContent.DummyItem;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+//import com.example.vengersmap.ui.main.dummy.DummyContent.DummyItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +32,12 @@ import java.util.List;
  * interface.
  */
 public class TabItemCollection extends Fragment {
+
+
+    DatabaseReference databaseArtifact;
+    ListView lvArtifact;
+    ArrayList<Artifact> ArtifactList;
+    String id;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -37,6 +50,12 @@ public class TabItemCollection extends Fragment {
      * fragment (e.g. upon screen orientation changes).
      */
     public TabItemCollection() {
+    }
+
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+//        databaseArtifact = FirebaseDatabase.getInstance().getReference("hunts").child(id);
+////        lvArtifact = findViewById(R.id.lvArtifacts);
+//        ArtifactList = new ArrayList<Artifact>();
     }
 
     // TODO: Customize parameter initialization
@@ -107,6 +126,6 @@ public class TabItemCollection extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Artifact item);
     }
 }
