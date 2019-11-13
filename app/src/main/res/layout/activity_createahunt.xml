@@ -4,15 +4,13 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tvCreateHunt"
-        android:gravity="center"
-        android:textSize="35dp"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
+        android:id="@+id/tvArtifactName"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:textSize="18sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/CreateHunt" />
+        android:text="@string/HuntNamePass" />
 
     <EditText
         android:id="@+id/etHuntName"
@@ -33,27 +31,12 @@
         android:hint="@string/HuntPass" />
 
     <TextView
-        android:id="@+id/tvWhichPark"
-        android:textSize="18dp"
-        android:textColor="@color/colorPrimaryDark"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/WhichPark" />
-
-    <Spinner
-        android:id="@+id/spinnerPark"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:entries="@array/spinnerParks"/>
-
-    <TextView
         android:id="@+id/tvObjects"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_weight="1"
         android:text="@string/HowManyObj"/>
 
@@ -73,6 +56,22 @@
         android:layout_weight="1"
         android:gravity="center"/>
 
+    <TextView
+        android:id="@+id/tvWhichPark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/WhichPark"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp" />
+
+    <Spinner
+        android:id="@+id/spinnerPark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:entries="@array/spinnerParks" />
+
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -82,13 +81,13 @@
         android:layout_height="220dp"
         android:layout_weight="1"
         android:layout_margin="5dp"
-        android:background="@drawable/border"
+        android:background="@color/colorPrimary"
         tools:context=".CreateAHuntActivity" />
 
     <TextView
         android:id="@+id/tvEditArtifacts"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -108,7 +107,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:layout_margin="5dp"
         android:layout_weight="1"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
         android:text="@string/createHunt" />
 
 
