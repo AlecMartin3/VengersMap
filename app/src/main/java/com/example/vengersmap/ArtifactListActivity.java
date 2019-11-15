@@ -48,12 +48,10 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     public SupportMapFragment mapFragment;
     private String id;
     private GoogleMap mMap;
-    private LatLng cLoc;
-    private Button btnRecenter;
 
     private LocationManager lm;
-    private static final float MIN_TIME = 400;
-    private static final float MIN_DISTANCE = 1000;
+    private static final int MIN_TIME = 100;
+    private static final int MIN_DISTANCE = 1;
     static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 99;
 
 
@@ -65,20 +63,12 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         databaseArtifact = FirebaseDatabase.getInstance().getReference("hunts").child(id);
         lvArtifact = findViewById(R.id.lvArtifacts);
         ArtifactList = new ArrayList<Artifact>();
-        btnRecenter = findViewById(R.id.btnRecenter);
 
 
         lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        btnRecenter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                recenterLocation();
-            }
-        });
 
     }
 
@@ -134,40 +124,37 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
             ActivityCompat.recreate(this);
             return;
         }
-        recenterLocation();
+        mMap.setMyLocationEnabled(true);
+//        recenterLocation();
 
         /**
          * Requests the current location periodically
          */
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 15, this);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
     }
 
-    /**
-     * Button to manually recenter map
-     * Location variables SHOULD be made member variables so that im not constantly calling for this location stuff
-     * ALSO turn this button to a fab because it looks better.
-     */
-    public void recenterLocation() {
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            System.out.println("PERMISSION DENIED");
-
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    MY_PERMISSIONS_REQUEST_FINE_LOCATION);
-            System.out.println("REQUESTING PERMISSION");
-
-            return;
-        }
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15)));
-
-    }
+//    public void recenterLocation() {
+//        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            System.out.println("PERMISSION DENIED");
+//
+//            ActivityCompat.requestPermissions(this,
+//                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+//                    MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+//            System.out.println("REQUESTING PERMISSION");
+//
+//            return;
+//        }
+//        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//        mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15)));
+//
+//    }
 
     @Override
     public void onLocationChanged(Location location) {
         double longitude = location.getLongitude();
         double latitude = location.getLatitude();
-        mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15)));
+        mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 18)));
+//        lm.removeUpdates(this);
     }
 
     @Override
