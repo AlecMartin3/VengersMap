@@ -17,6 +17,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -48,9 +49,9 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     private String id;
     private GoogleMap mMap;
     private LatLng cLoc;
-    private FusedLocationProviderClient fusedLocationClient;
+    private Button btnRecenter;
 
-    private LocationManager locationManager;
+    private LocationManager lm;
     private static final float MIN_TIME = 400;
     private static final float MIN_DISTANCE = 1000;
     static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 99;
@@ -64,21 +65,20 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         databaseArtifact = FirebaseDatabase.getInstance().getReference("hunts").child(id);
         lvArtifact = findViewById(R.id.lvArtifacts);
         ArtifactList = new ArrayList<Artifact>();
+        btnRecenter = findViewById(R.id.btnRecenter);
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        System.out.println(location);
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            System.out.println(location);
-                        }
-                    }
-                });
+
+        lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        btnRecenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recenterLocation();
+            }
+        });
 
     }
 
@@ -111,17 +111,14 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        System.out.println("**********************TEST******************");
-
 
         /**
          * Create a location manager and find last location reported.
          */
-        LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
         /**
          * If permission not granted to user, deny access.
-         * Consider asking for permission if denied.
+         * Ask for permission if denied.
          */
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -137,19 +134,39 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
             ActivityCompat.recreate(this);
             return;
         }
+        recenterLocation();
 
         /**
          * Requests the current location periodically
          */
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 15, this);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 15, this);
+    }
+
+    /**
+     * Button to manually recenter map
+     * Location variables SHOULD be made member variables so that im not constantly calling for this location stuff
+     * ALSO turn this button to a fab because it looks better.
+     */
+    public void recenterLocation() {
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            System.out.println("PERMISSION DENIED");
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+            System.out.println("REQUESTING PERMISSION");
+
+            return;
+        }
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15)));
+
     }
 
     @Override
     public void onLocationChanged(Location location) {
         double longitude = location.getLongitude();
         double latitude = location.getLatitude();
-//        mMap.moveCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15)));
-        // Does this look good or bad? test pls
         mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15)));
     }
 
