@@ -31,7 +31,7 @@ import java.util.ArrayList;
 public class ArtifactListActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
     private DatabaseReference databaseArtifact;
-        private ListView lvArtifact;
+    private ListView lvArtifact;
     private ArrayList<Artifact> ArtifactList;
     public SupportMapFragment mapFragment;
     private String id;
@@ -81,7 +81,6 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                 for (DataSnapshot CountSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot NameSnapshot : CountSnapshot.getChildren()) {
                         Artifact Artifact = NameSnapshot.getValue(Artifact.class);
-                        System.out.println("********" + NameSnapshot.child("artName").getValue().toString() + "********");
                         Artifact.setArtName(NameSnapshot.child("artName").getValue().toString());
                         ArtifactList.add(Artifact);
                     }
