@@ -7,6 +7,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -36,12 +39,11 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     public SupportMapFragment mapFragment;
     private String id;
     private GoogleMap mMap;
-    private LatLng cLoc;
-    private FusedLocationProviderClient fusedLocationClient;
 
-    private LocationManager locationManager;
-    private static final float MIN_TIME = 400;
-    private static final float MIN_DISTANCE = 1000;
+    private LocationManager lm;
+    private static final int MIN_TIME = 100;
+    private static final int MIN_DISTANCE = 1;
+    static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 99;
 
 
     @Override
@@ -53,18 +55,9 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         lvArtifact = findViewById(R.id.lvArtifacts);
         ArtifactList = new ArrayList<Artifact>();
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        System.out.println(location);
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            System.out.println(location);
-                        }
-                    }
-                });
+
+        lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -99,35 +92,60 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        System.out.println("**********************TEST******************");
-
 
         /**
          * Create a location manager and find last location reported.
          */
-        LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
         /**
          * If permission not granted to user, deny access.
-         * Consider asking for permission if denied.
+         * Ask for permission if denied.
          */
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    Activity#requestPermissions
             System.out.println("PERMISSION DENIED");
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+            System.out.println("REQUESTING PERMISSION");
+
+            finish();
+            ActivityCompat.recreate(this);
             return;
         }
+        mMap.setMyLocationEnabled(true);
+//        recenterLocation();
+
         /**
          * Requests the current location periodically
          */
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 15, this);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
     }
+
+//    public void recenterLocation() {
+//        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            System.out.println("PERMISSION DENIED");
+//
+//            ActivityCompat.requestPermissions(this,
+//                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+//                    MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+//            System.out.println("REQUESTING PERMISSION");
+//
+//            return;
+//        }
+//        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//        mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15)));
+//
+//    }
 
     @Override
     public void onLocationChanged(Location location) {
         double longitude = location.getLongitude();
         double latitude = location.getLatitude();
-        mMap.moveCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15)));
+        mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 18)));
+//        lm.removeUpdates(this);
     }
 
     @Override
