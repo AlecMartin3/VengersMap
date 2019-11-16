@@ -1,24 +1,22 @@
 package com.example.vengersmap;
 
-import java.util.ArrayList;
-
 public class Player {
 
     String email;
-    ArrayList<Artifact> collection;
+    String artName;
 
     Player(){}
 
-    Player(String email, ArrayList<Artifact> collection){
+    Player(String email, String artName){
         this.email = email;
-        this.collection = collection;
+        this.artName = artName;
     }
-    public ArrayList<Artifact> getCollection() {
-        return collection;
+    public String getArtName() {
+        return artName;
     }
 
-    public void setCollection(ArrayList<Artifact> collection) {
-        this.collection = collection;
+    public void setArtName(String artName) {
+        this.artName = artName;
     }
 
     public String getEmail() {

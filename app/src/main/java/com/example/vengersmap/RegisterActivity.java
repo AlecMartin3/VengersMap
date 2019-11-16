@@ -1,15 +1,14 @@
 package com.example.vengersmap;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         password = findViewById(R.id.Password);
         register = findViewById(R.id.registerBut);
         firebaseAuth = FirebaseAuth.getInstance();
+
         register.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -52,9 +52,12 @@ public class RegisterActivity extends AppCompatActivity {
                                     Toast.makeText(RegisterActivity.this,
                                             "Registered Successfully",
                                             Toast.LENGTH_LONG).show();
-                                    String id = databasePlayer.push().getKey();
+                                    String id = task.getResult().getUser().getUid();
                                     Task setEmail = databasePlayer.child(id).child("Email").setValue(email.getText().toString());
-                                    Task setArtifactTask = databasePlayer.child(id).child("Artifacts").setValue(artifactList);
+                                    Task setArtifactTask = databasePlayer.child(id).child("Artifacts").setValue("0");
+                                    Task setArtifactTask2 = databasePlayer.child(id).child("Artifacts").child("0").setValue("artName");
+                                    Task setArtifactTask3 = databasePlayer.child(id).child("Artifacts").child("0").child("artName").setValue("null");
+
                                     email.setText("");
                                     password.setText("");
                                 }else{

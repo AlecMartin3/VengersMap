@@ -1,9 +1,6 @@
 package com.example.vengersmap.ui.main.dummy;
 
-import android.widget.ListView;
-
-import com.example.vengersmap.Artifact;
-import com.google.firebase.database.DatabaseReference;
+import com.example.vengersmap.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,14 +22,14 @@ public class DummyContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<Artifact> ITEMS = new ArrayList<Artifact>();
+    public static final List<Player> ITEMS = new ArrayList<Player>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static final Map<String, Artifact> ITEM_MAP = new HashMap<String, Artifact>();
+    public static final Map<String, Player> ITEM_MAP = new HashMap<String, Player>();
 
-    private static void addItem(Artifact item) {
+    private static void addItem(Player item) {
         ITEMS.add(item);
         ITEM_MAP.put(item.getArtName(), item);
     }
