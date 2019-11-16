@@ -1,19 +1,19 @@
 package com.example.vengersmap.ui.main;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.vengersmap.Artifact;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.vengersmap.Player;
 import com.example.vengersmap.R;
 import com.example.vengersmap.ui.main.TabItemCollection.OnListFragmentInteractionListener;
-//import com.example.vengersmap.ui.main.dummy.DummyContent.DummyItem;
 
-import java.util.ArrayList;
 import java.util.List;
+
+//import com.example.vengersmap.ui.main.dummy.DummyContent.DummyItem;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {} and makes a call to the
@@ -22,10 +22,10 @@ import java.util.List;
  */
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Artifact> mValues;
+    private final List<Player> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<Artifact> items, OnListFragmentInteractionListener listener) {
+    public MyItemRecyclerViewAdapter(List<Player> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -62,7 +62,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
-        public Artifact mItem;
+        public Player mItem;
 
         public ViewHolder(View view) {
             super(view);

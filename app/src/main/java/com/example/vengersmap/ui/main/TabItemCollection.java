@@ -2,28 +2,33 @@ package com.example.vengersmap.ui.main;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
-
 import com.example.vengersmap.Artifact;
+import com.example.vengersmap.Player;
+import com.example.vengersmap.PlayerAdapter;
 import com.example.vengersmap.R;
 import com.example.vengersmap.ui.main.dummy.DummyContent;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-//import com.example.vengersmap.ui.main.dummy.DummyContent.DummyItem;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
+
+//import com.example.vengersmap.ui.main.dummy.DummyContent.DummyItem;
 
 /**
  * A fragment representing a list of Items.
@@ -34,10 +39,12 @@ import java.util.List;
 public class TabItemCollection extends Fragment {
 
 
-    DatabaseReference databaseArtifact;
-    ListView lvArtifact;
+    DatabaseReference databaseUser;
+    ListView lvPlayer;
+    private ListView lvArtifacts;
+    ArrayList<Player> PlayerList;
     ArrayList<Artifact> ArtifactList;
-    String id;
+    String uid;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -53,9 +60,32 @@ public class TabItemCollection extends Fragment {
     }
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-//        databaseArtifact = FirebaseDatabase.getInstance().getReference("hunts").child(id);
-////        lvArtifact = findViewById(R.id.lvArtifacts);
-//        ArtifactList = new ArrayList<Artifact>();
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        System.out.println("********" + uid + "********");
+        databaseUser = FirebaseDatabase.getInstance().getReference("players").child(uid);
+        PlayerList = new ArrayList<Player>();
+        lvArtifacts = (ListView) view.findViewById(R.id.lvArtifacts);
+        databaseUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                PlayerList.clear();
+                for (DataSnapshot CountSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot NameSnapshot : CountSnapshot.getChildren()) {
+                        Player player = NameSnapshot.getValue(Player.class);
+                        System.out.println("********" + NameSnapshot.child("artName").getValue().toString() + "********");
+                        player.setArtName(NameSnapshot.child("artName").getValue().toString());
+                        PlayerList.add(player);
+                    }
+
+                }
+                PlayerAdapter adapter = new PlayerAdapter(getActivity(), PlayerList);
+                lvArtifacts.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     // TODO: Customize parameter initialization
@@ -80,7 +110,7 @@ public class TabItemCollection extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tab_item_collection_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_tab_item_collection, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -126,6 +156,6 @@ public class TabItemCollection extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(Artifact item);
+        void onListFragmentInteraction(Player item);
     }
 }
