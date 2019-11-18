@@ -7,22 +7,17 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,8 +36,8 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     private GoogleMap mMap;
 
     private LocationManager lm;
-    private static final int MIN_TIME = 100;
-    private static final int MIN_DISTANCE = 1;
+    private static final int MIN_TIME = 500;
+    private static final int MIN_DISTANCE = 5;
     static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 99;
 
 
@@ -89,6 +84,11 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         });
     }
 
+    /**
+     * When Map is ready, location permission is acquired and user is located on map.
+     * User will be followed while map is active.
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -116,7 +116,11 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
             return;
         }
         mMap.setMyLocationEnabled(true);
-//        recenterLocation();
+
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+        mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 18)));
 
         /**
          * Requests the current location periodically
@@ -124,28 +128,11 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
     }
 
-//    public void recenterLocation() {
-//        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            System.out.println("PERMISSION DENIED");
-//
-//            ActivityCompat.requestPermissions(this,
-//                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-//                    MY_PERMISSIONS_REQUEST_FINE_LOCATION);
-//            System.out.println("REQUESTING PERMISSION");
-//
-//            return;
-//        }
-//        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//        mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15)));
-//
-//    }
-
     @Override
     public void onLocationChanged(Location location) {
         double longitude = location.getLongitude();
         double latitude = location.getLatitude();
         mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 18)));
-//        lm.removeUpdates(this);
     }
 
     @Override
@@ -162,37 +149,4 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     public void onProviderDisabled(String s) {
 
     }
-
-//    /**
-//     * Location listener to update location and move camera to that location
-//     */
-//    private final LocationListener locationListener = new LocationListener() {
-//        public void onLocationChanged(Location location) {
-//
-//            double longitude, latitude;
-//            longitude = location.getLongitude();
-//            latitude = location.getLatitude();
-//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
-//
-//        }
-//
-//        @Override
-//        public void onStatusChanged(String s, int i, Bundle bundle) {
-//
-//        }
-//
-//        @Override
-//        public void onProviderEnabled(String s) {
-//
-//        }
-//
-//        @Override
-//        public void onProviderDisabled(String s) {
-//
-//        }
-//    };
-
-
-
-
 }
