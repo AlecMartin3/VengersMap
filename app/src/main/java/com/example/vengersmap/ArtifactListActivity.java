@@ -1,13 +1,16 @@
 package com.example.vengersmap;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +21,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,12 +33,18 @@ import java.util.ArrayList;
 
 public class ArtifactListActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
+    private String id;
     private DatabaseReference databaseArtifact;
     private ListView lvArtifact;
     private ArrayList<Artifact> ArtifactList;
+
     public SupportMapFragment mapFragment;
-    private String id;
     private GoogleMap mMap;
+    private FloatingActionButton fabScan;
+    private static final double CLOSE_RANGE = 0.00005; // roughly 5m
+    private static final double MED_RANGE = 0.00010;  //         10m
+    private static final double LONG_RANGE = 0.00020; //         20m
+
 
     private LocationManager lm;
     private static final int MIN_TIME = 500;
@@ -49,13 +60,12 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         databaseArtifact = FirebaseDatabase.getInstance().getReference("hunts").child(id);
         lvArtifact = findViewById(R.id.lvArtifacts);
         ArtifactList = new ArrayList<Artifact>();
-
+        fabScan = findViewById(R.id.fabScan);
 
         lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
     }
 
     @Override
@@ -82,6 +92,66 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
+        fabScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                for (Artifact a: ArtifactList) {
+
+                    if (inRange(a, CLOSE_RANGE)) {
+                        System.out.println("found something");
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "Found something!",
+                                Toast.LENGTH_SHORT);
+                        toast.show();
+                        mMap.addMarker(new MarkerOptions()
+                                        .position(new LatLng(a.getX(), a.getY()))
+                                        .title(a.getArtName()));
+                    } else if (inRange(a, MED_RANGE)) {
+                        System.out.println("getting closer");
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "Getting closer!",
+                                Toast.LENGTH_SHORT);
+                        toast.show();
+                    } else if (inRange(a, LONG_RANGE)) {
+                        System.out.println("something's around here");
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "Something's around here!",
+                                Toast.LENGTH_SHORT);
+                        toast.show();
+                    } else {
+                        System.out.println("nothing here");
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "Nothing here",
+                                Toast.LENGTH_SHORT);
+
+                        toast.show();
+                    }
+
+                }
+            }
+        });
+
+
+    }
+
+    private boolean inRange(Artifact a, double levelRange) {
+        @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+
+        double artLong = a.getY();
+        double artLat = a.getX();
+
+        System.out.println("Artifact at: " + artLong + " " + artLat);
+        System.out.println("Device at: " + longitude + " " + latitude);
+
+        if (artLong - levelRange <= longitude && longitude <= artLong + levelRange &&
+            artLat - levelRange <= latitude && latitude <= artLat + levelRange)
+            return true;
+
+        return false;
     }
 
     /**
@@ -94,16 +164,10 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         mMap = googleMap;
 
         /**
-         * Create a location manager and find last location reported.
-         */
-
-        /**
          * If permission not granted to user, deny access.
          * Ask for permission if denied.
          */
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    Activity#requestPermissions
             System.out.println("PERMISSION DENIED");
 
             ActivityCompat.requestPermissions(this,
@@ -149,4 +213,5 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     public void onProviderDisabled(String s) {
 
     }
+
 }
