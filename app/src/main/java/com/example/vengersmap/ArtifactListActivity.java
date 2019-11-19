@@ -46,8 +46,8 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     private GoogleMap mMap;
     private FloatingActionButton fabScan;
     private static final double CLOSE_RANGE = 0.00005; // roughly 5m
-    private static final double MED_RANGE = 0.00010;  //         10m
-    private static final double LONG_RANGE = 0.00020; //         20m
+    private static final double MED_RANGE = 0.00010;  //          10m
+    private static final double LONG_RANGE = 0.00020; //          20m
 
 
     private LocationManager lm;
@@ -140,13 +140,12 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
 
                         /** Adds artifact to users artifact list in database */
                         foundArtifacts.add(a);
-//                        String toCollect = a.getArtName();
                         databaseUser = FirebaseDatabase.getInstance().getReference("players").child(userID).child("Artifacts");
                         databaseUser.setValue(foundArtifacts);
 
 
                         /** Removes artifact from list when it's found */
-//                        ArtifactList.remove(a);
+                        ArtifactList.remove(a);
                         ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, ArtifactList);
                         lvArtifact.setAdapter(adapter);
 
