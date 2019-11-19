@@ -108,6 +108,10 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                         mMap.addMarker(new MarkerOptions()
                                         .position(new LatLng(a.getX(), a.getY()))
                                         .title(a.getArtName()));
+                        ArtifactList.remove(a);
+                        ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, ArtifactList);
+                        lvArtifact.setAdapter(adapter);
+
                     } else if (inRange(a, MED_RANGE)) {
                         System.out.println("getting closer");
                         Toast toast = Toast.makeText(getApplicationContext(),
