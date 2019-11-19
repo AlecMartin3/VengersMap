@@ -23,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,9 +35,12 @@ import java.util.ArrayList;
 public class ArtifactListActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
     private String id;
+    private String userID;
     private DatabaseReference databaseArtifact;
+    private DatabaseReference databaseUser;
     private ListView lvArtifact;
     private ArrayList<Artifact> ArtifactList;
+    private ArrayList<Artifact> foundArtifacts;
 
     public SupportMapFragment mapFragment;
     private GoogleMap mMap;
@@ -47,6 +51,8 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
 
 
     private LocationManager lm;
+    private double deviceLatitude;
+    private double deviceLongitude;
     private static final int MIN_TIME = 500;
     private static final int MIN_DISTANCE = 5;
     static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 99;
@@ -57,10 +63,14 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artifact_list);
         id = getIntent().getExtras().getString("StringID");
+        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         databaseArtifact = FirebaseDatabase.getInstance().getReference("hunts").child(id);
         lvArtifact = findViewById(R.id.lvArtifacts);
         ArtifactList = new ArrayList<Artifact>();
+        foundArtifacts = new ArrayList<Artifact>();
         fabScan = findViewById(R.id.fabScan);
+        fabScan.setImageResource(R.drawable.loupe);
 
         lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
@@ -108,6 +118,20 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                         mMap.addMarker(new MarkerOptions()
                                         .position(new LatLng(a.getX(), a.getY()))
                                         .title(a.getArtName()));
+
+                        /** Adds artifact to users artifact list in database */
+                        foundArtifacts.add(a);
+//                        String toCollect = a.getArtName();
+                        databaseUser = FirebaseDatabase.getInstance().getReference("players").child(userID).child("Artifacts");
+                        databaseUser.setValue(foundArtifacts);
+
+
+                        /** Removes artifact from list when it's found */
+//                        ArtifactList.remove(a);
+                        ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, ArtifactList);
+                        lvArtifact.setAdapter(adapter);
+
+
                     } else if (inRange(a, MED_RANGE)) {
                         System.out.println("getting closer");
                         Toast toast = Toast.makeText(getApplicationContext(),
@@ -137,18 +161,15 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     }
 
     private boolean inRange(Artifact a, double levelRange) {
-        @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        double longitude = location.getLongitude();
-        double latitude = location.getLatitude();
 
-        double artLong = a.getY();
+        double artLong = a.getY(); // These values are backwards!! WHY?!!
         double artLat = a.getX();
 
-        System.out.println("Artifact at: " + artLong + " " + artLat);
-        System.out.println("Device at: " + longitude + " " + latitude);
+        System.out.println("Artifact at: " + artLat + " " + artLong);
+        System.out.println("Device at: " + deviceLatitude + " " + deviceLongitude);
 
-        if (artLong - levelRange <= longitude && longitude <= artLong + levelRange &&
-            artLat - levelRange <= latitude && latitude <= artLat + levelRange)
+        if (artLong - levelRange <= deviceLongitude && deviceLongitude <= artLong + levelRange &&
+            artLat - levelRange <= deviceLatitude && deviceLatitude <= artLat + levelRange)
             return true;
 
         return false;
@@ -181,10 +202,8 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         }
         mMap.setMyLocationEnabled(true);
 
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        double longitude = location.getLongitude();
-        double latitude = location.getLatitude();
-        mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 18)));
+        findDeviceLocation();
+        mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(deviceLatitude, deviceLongitude), 18)));
 
         /**
          * Requests the current location periodically
@@ -192,11 +211,17 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
     }
 
+    private void findDeviceLocation() {
+        @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        deviceLongitude = location.getLongitude();
+        deviceLatitude = location.getLatitude();
+    }
+
     @Override
     public void onLocationChanged(Location location) {
-        double longitude = location.getLongitude();
-        double latitude = location.getLatitude();
-        mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 18)));
+        deviceLongitude = location.getLongitude();
+        deviceLatitude = location.getLatitude();
+        mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(deviceLatitude, deviceLongitude), 18)));
     }
 
     @Override
