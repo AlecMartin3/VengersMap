@@ -60,12 +60,13 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artifact_list);
         id = getIntent().getExtras().getString("StringID");
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
         databaseArtifact = FirebaseDatabase.getInstance().getReference("hunts").child(id);
+        databaseUser = FirebaseDatabase.getInstance().getReference("players").child(userID);
         lvArtifact = findViewById(R.id.lvArtifacts);
         ArtifactList = new ArrayList<Artifact>();
         foundArtifacts = new ArrayList<Artifact>();
@@ -81,7 +82,24 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     @Override
     protected void onStart() {
         super.onStart();
+        databaseUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                foundArtifacts.clear();
+                for (DataSnapshot CountSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot NameSnapshot : CountSnapshot.getChildren()) {
+                        Artifact player = NameSnapshot.getValue(Artifact.class);
+                        player.setArtName(NameSnapshot.child("artName").getValue().toString());
+                        foundArtifacts.add(player);
+                    }
 
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
         databaseArtifact.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

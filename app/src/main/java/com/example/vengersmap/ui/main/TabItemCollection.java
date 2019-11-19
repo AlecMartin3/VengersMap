@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.vengersmap.Artifact;
 import com.example.vengersmap.ArtifactAdapter;
 import com.example.vengersmap.Player;
-import com.example.vengersmap.PlayerAdapter;
 import com.example.vengersmap.R;
 import com.example.vengersmap.ui.main.dummy.DummyContent;
 import com.google.firebase.auth.FirebaseAuth;
@@ -72,7 +71,7 @@ public class TabItemCollection extends Fragment {
                 for (DataSnapshot CountSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot NameSnapshot : CountSnapshot.getChildren()) {
                         Artifact player = NameSnapshot.getValue(Artifact.class);
-                        System.out.println("********" + NameSnapshot.child("artName").getValue().toString() + "********");
+//                        System.out.println("********" + NameSnapshot.child("artName").getValue().toString() + "********");
                         player.setArtName(NameSnapshot.child("artName").getValue().toString());
                         artifactList.add(player);
                     }
