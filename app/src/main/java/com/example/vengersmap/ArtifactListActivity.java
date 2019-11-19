@@ -23,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,7 +35,9 @@ import java.util.ArrayList;
 public class ArtifactListActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
     private String id;
+    private String userID;
     private DatabaseReference databaseArtifact;
+    private DatabaseReference databaseUser;
     private ListView lvArtifact;
     private ArrayList<Artifact> ArtifactList;
 
@@ -59,10 +62,13 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artifact_list);
         id = getIntent().getExtras().getString("StringID");
+        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         databaseArtifact = FirebaseDatabase.getInstance().getReference("hunts").child(id);
         lvArtifact = findViewById(R.id.lvArtifacts);
         ArtifactList = new ArrayList<Artifact>();
         fabScan = findViewById(R.id.fabScan);
+        fabScan.setImageResource(R.drawable.loupe);
 
         lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
@@ -110,6 +116,19 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                         mMap.addMarker(new MarkerOptions()
                                         .position(new LatLng(a.getX(), a.getY()))
                                         .title(a.getArtName()));
+
+                        /** Adds artifact to users artifact list in database */
+                        String toCollect = a.getArtName();
+                        databaseUser = FirebaseDatabase.getInstance().getReference("players").child(userID).child("Artifacts");
+                        databaseUser.setValue(toCollect);
+
+
+                        /** Removes artifact from list when it's found */
+                        ArtifactList.remove(a);
+                        ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, ArtifactList);
+                        lvArtifact.setAdapter(adapter);
+
+
                     } else if (inRange(a, MED_RANGE)) {
                         System.out.println("getting closer");
                         Toast toast = Toast.makeText(getApplicationContext(),
