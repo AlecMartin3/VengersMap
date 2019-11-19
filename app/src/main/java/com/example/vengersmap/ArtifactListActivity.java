@@ -83,7 +83,6 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                         ArtifactList.add(Artifact);
                     }
                 }
-
                 ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, ArtifactList);
                 lvArtifact.setAdapter(adapter);
             }
@@ -92,7 +91,6 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
         fabScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
