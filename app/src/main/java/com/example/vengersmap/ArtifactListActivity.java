@@ -40,6 +40,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     private DatabaseReference databaseUser;
     private ListView lvArtifact;
     private ArrayList<Artifact> ArtifactList;
+    private ArrayList<Artifact> foundArtifacts;
 
     public SupportMapFragment mapFragment;
     private GoogleMap mMap;
@@ -67,6 +68,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         databaseArtifact = FirebaseDatabase.getInstance().getReference("hunts").child(id);
         lvArtifact = findViewById(R.id.lvArtifacts);
         ArtifactList = new ArrayList<Artifact>();
+        foundArtifacts = new ArrayList<Artifact>();
         fabScan = findViewById(R.id.fabScan);
         fabScan.setImageResource(R.drawable.loupe);
 
@@ -118,13 +120,14 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                                         .title(a.getArtName()));
 
                         /** Adds artifact to users artifact list in database */
-                        String toCollect = a.getArtName();
+                        foundArtifacts.add(a);
+//                        String toCollect = a.getArtName();
                         databaseUser = FirebaseDatabase.getInstance().getReference("players").child(userID).child("Artifacts");
-                        databaseUser.setValue(toCollect);
+                        databaseUser.setValue(foundArtifacts);
 
 
                         /** Removes artifact from list when it's found */
-                        ArtifactList.remove(a);
+//                        ArtifactList.remove(a);
                         ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, ArtifactList);
                         lvArtifact.setAdapter(adapter);
 
