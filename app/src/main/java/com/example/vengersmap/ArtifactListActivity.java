@@ -46,8 +46,8 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     private GoogleMap mMap;
     private FloatingActionButton fabScan;
     private static final double CLOSE_RANGE = 0.00005; // roughly 5m
-    private static final double MED_RANGE = 0.00010;  //         10m
-    private static final double LONG_RANGE = 0.00020; //         20m
+    private static final double MED_RANGE = 0.00010;  //          10m
+    private static final double LONG_RANGE = 0.00020; //          20m
 
 
     private LocationManager lm;
@@ -124,11 +124,11 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         fabScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean found = false;
+                boolean inrange = false;
                 for (Artifact a: ArtifactList) {
 
                     if (inRange(a, CLOSE_RANGE)) {
-                        found = true;
+                        inrange = true;
                         System.out.println("found something");
                         Toast toast = Toast.makeText(getApplicationContext(),
                                 "Found something!",
@@ -140,30 +140,30 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
 
                         /** Adds artifact to users artifact list in database */
                         foundArtifacts.add(a);
-//                        String toCollect = a.getArtName();
                         databaseUser = FirebaseDatabase.getInstance().getReference("players").child(userID).child("Artifacts");
                         databaseUser.setValue(foundArtifacts);
 
 
                         /** Removes artifact from list when it's found */
-//                        ArtifactList.remove(a);
+                        ArtifactList.remove(a);
                         ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, ArtifactList);
                         lvArtifact.setAdapter(adapter);
 
-
                     } else if (inRange(a, MED_RANGE)) {
+                        inrange = true;
                         System.out.println("getting closer");
                         Toast toast = Toast.makeText(getApplicationContext(),
                                 "Getting closer!",
                                 Toast.LENGTH_SHORT);
                         toast.show();
                     } else if (inRange(a, LONG_RANGE)) {
+                        inrange = true;
                         System.out.println("something's around here");
                         Toast toast = Toast.makeText(getApplicationContext(),
                                 "Something's around here!",
                                 Toast.LENGTH_SHORT);
                         toast.show();
-                    } else if (!found) {
+                    } else if (!inrange) {
                         System.out.println("nothing here");
                         Toast toast = Toast.makeText(getApplicationContext(),
                                 "Nothing here",
