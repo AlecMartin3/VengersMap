@@ -66,6 +66,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         lvArtifact = findViewById(R.id.lvArtifacts);
         ArtifactList = new ArrayList<Artifact>();
         fabScan = findViewById(R.id.fabScan);
+        fabScan.setImageResource(R.drawable.loupe);
 
         lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
