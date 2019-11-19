@@ -63,7 +63,6 @@ public class TabItemCollection extends Fragment {
     }
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        System.out.println("********" + uid + "********");
         databaseUser = FirebaseDatabase.getInstance().getReference("players").child(uid);
         artifactList = new ArrayList<Artifact>();
         lvArtifacts = (ListView) view.findViewById(R.id.lvArtifacts);
@@ -74,7 +73,6 @@ public class TabItemCollection extends Fragment {
                 for (DataSnapshot CountSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot NameSnapshot : CountSnapshot.getChildren()) {
                         Artifact player = NameSnapshot.getValue(Artifact.class);
-//                        System.out.println("********" + NameSnapshot.child("artName").getValue().toString() + "********");
                         player.setArtName(NameSnapshot.child("artName").getValue().toString());
                         artifactList.add(player);
                     }

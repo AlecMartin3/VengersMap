@@ -41,6 +41,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     private ListView lvArtifact;
     private ArrayList<Artifact> ArtifactList;
     private ArrayList<Artifact> foundArtifacts;
+    private int removeIndex = -1;
 
     public SupportMapFragment mapFragment;
     private GoogleMap mMap;
@@ -145,9 +146,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
 
 
                         /** Removes artifact from list when it's found */
-                        ArtifactList.remove(a);
-                        ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, ArtifactList);
-                        lvArtifact.setAdapter(adapter);
+                        removeIndex = ArtifactList.indexOf(a);
 
                     } else if (inRange(a, MED_RANGE)) {
                         inrange = true;
@@ -173,6 +172,12 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                     }
 
                 }
+                if(removeIndex != -1){
+                    ArtifactList.remove(removeIndex);
+                    ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, ArtifactList);
+                    lvArtifact.setAdapter(adapter);
+                }
+
             }
         });
 
