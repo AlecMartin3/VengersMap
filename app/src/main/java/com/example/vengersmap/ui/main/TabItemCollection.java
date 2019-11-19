@@ -38,7 +38,7 @@ import java.util.ArrayList;
  */
 public class TabItemCollection extends Fragment {
 
-
+    private ValueEventListener listener;
     DatabaseReference databaseUser;
     ListView lvPlayer;
     private ListView lvArtifacts;
@@ -57,14 +57,17 @@ public class TabItemCollection extends Fragment {
      */
     public TabItemCollection() {
     }
-
+    public  void onDestroyView() {
+        super.onDestroyView();
+        databaseUser.removeEventListener(listener);
+    }
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         System.out.println("********" + uid + "********");
         databaseUser = FirebaseDatabase.getInstance().getReference("players").child(uid);
         artifactList = new ArrayList<Artifact>();
         lvArtifacts = (ListView) view.findViewById(R.id.lvArtifacts);
-        databaseUser.addValueEventListener(new ValueEventListener() {
+        listener = databaseUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 artifactList.clear();
