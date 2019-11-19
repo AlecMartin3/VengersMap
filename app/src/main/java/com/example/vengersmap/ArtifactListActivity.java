@@ -124,10 +124,11 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         fabScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                boolean found = false;
                 for (Artifact a: ArtifactList) {
 
                     if (inRange(a, CLOSE_RANGE)) {
+                        found = true;
                         System.out.println("found something");
                         Toast toast = Toast.makeText(getApplicationContext(),
                                 "Found something!",
@@ -162,7 +163,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                                 "Something's around here!",
                                 Toast.LENGTH_SHORT);
                         toast.show();
-                    } else {
+                    } else if (!found) {
                         System.out.println("nothing here");
                         Toast toast = Toast.makeText(getApplicationContext(),
                                 "Nothing here",
