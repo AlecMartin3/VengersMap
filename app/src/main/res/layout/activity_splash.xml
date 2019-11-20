@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/venger_home" />
 
+
     <Button
         android:id="@+id/launchProfile"
         android:layout_width="200dp"

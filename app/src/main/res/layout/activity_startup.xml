@@ -1,53 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/ivVengerHome"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginTop="160dp"
+        android:id="@+id/ivVe"
+        android:layout_width="88dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/launchLogin"
+        app:layout_constraintEnd_toStartOf="@+id/animation"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/launchLogin"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.505"
+        app:srcCompat="@drawable/v" />
+
+    <ImageView
+        android:id="@+id/animation"
+        android:layout_width="67dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:onClick="animate"
+        app:layout_constraintBottom_toBottomOf="@+id/ivVe"
+        app:layout_constraintEnd_toStartOf="@+id/ivGers"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ivVe"
+        app:srcCompat="@drawable/logo" />
+
+    <ImageView
+        android:id="@+id/ivGers"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/venger_home" />
+        app:layout_constraintBottom_toBottomOf="@+id/animation"
+        app:layout_constraintEnd_toEndOf="@+id/launchLogin"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/animation"
+        app:srcCompat="@drawable/g" />
 
     <Button
         android:id="@+id/launchLogin"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="25dp"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:textColor="@color/white"
+        android:layout_height="45dp"
+        android:layout_marginBottom="40dp"
         android:background="@color/colorPrimary"
+        android:gravity="center"
         android:onClick="LoginRegister"
-        android:text="@string/LoginBut" />
+        android:text="@string/LoginBut"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/launchRegister"
+        app:layout_constraintEnd_toEndOf="@+id/launchRegister"
+        app:layout_constraintHorizontal_bias="0.417"
+        app:layout_constraintStart_toStartOf="@+id/launchRegister" />
+
     <Button
         android:id="@+id/launchRegister"
         android:layout_width="200dp"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:background="@color/colorPrimary"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="272dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
         android:onClick="LoginRegister"
-        android:text="@string/RegisterBut" />
+        android:text="@string/RegisterBut"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
 
-<!--    <Button-->
-<!--        android:id="@+id/launchCreateAHunt"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:onClick="LoginRegister"-->
-<!--        android:text="@string/CreateHunt" />-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="516dp" />
 
-<!--    <Button-->
-<!--        android:id="@+id/launchJoinAHunt"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:onClick="LoginRegister"-->
-<!--        android:text="@string/JoinHunt" />-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="205dp" />
 
-</LinearLayout>
+
+    <!--    <Button-->
+    <!--        android:id="@+id/launchCreateAHunt"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:onClick="LoginRegister"-->
+    <!--        android:text="@string/CreateHunt" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/launchJoinAHunt"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:onClick="LoginRegister"-->
+    <!--        android:text="@string/JoinHunt" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
