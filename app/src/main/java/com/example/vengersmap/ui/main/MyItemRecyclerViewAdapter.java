@@ -13,7 +13,6 @@ import com.example.vengersmap.ui.main.TabItemCollection.OnListFragmentInteractio
 
 import java.util.List;
 
-//import com.example.vengersmap.ui.main.dummy.DummyContent.DummyItem;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {} and makes a call to the
