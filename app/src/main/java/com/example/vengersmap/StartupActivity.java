@@ -1,25 +1,31 @@
 package com.example.vengersmap;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import com.google.firebase.auth.FirebaseAuth;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class StartupActivity extends AppCompatActivity {
     public Button login;
     public Button register;
     FirebaseAuth firebaseAuth;
-
+    AnimatedVectorDrawable d;
+    ImageView avd;
 
     @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_startup);
             firebaseAuth = FirebaseAuth.getInstance();
+            d = (AnimatedVectorDrawable) getDrawable(R.drawable.logo);
+            avd = (ImageView) findViewById(R.id.animation);
+            avd.setImageDrawable(d);
         }
         public void LoginRegister(View view){
         Intent intent = null;
@@ -31,15 +37,12 @@ public class StartupActivity extends AppCompatActivity {
                 intent = new Intent(StartupActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
-//            if(view.getId()== R.id.launchCreateAHunt){
-//                intent = new Intent(StartupActivity.this, CreateAHuntActivity.class);
-//                startActivity(intent);
-//            }
-//            if(view.getId()== R.id.launchJoinAHunt){
-//                intent = new Intent(StartupActivity.this, LobbyListActivity.class);
-//                startActivity(intent);
-//            }
-
         }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        d.start();
+    }
 
 }

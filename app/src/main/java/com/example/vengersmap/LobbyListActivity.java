@@ -1,9 +1,5 @@
 package com.example.vengersmap;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +8,10 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +27,7 @@ public class LobbyListActivity extends AppCompatActivity {
     DatabaseReference databaseHunt;
     ListView lvHunt;
     List<HuntItem> HuntList;
+    private ValueEventListener listener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +52,7 @@ public class LobbyListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        databaseHunt.addValueEventListener(new ValueEventListener() {
+        listener = databaseHunt.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 HuntList.clear();
@@ -71,6 +72,10 @@ public class LobbyListActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
+    }
+    public  void onDestroy() {
+        super.onDestroy();
+        databaseHunt.removeEventListener(listener);
     }
     private void showPasswordDialog(final String id,  final String password){
         if(!(password.equals(""))) {
@@ -104,6 +109,7 @@ public class LobbyListActivity extends AppCompatActivity {
         }else{
             Intent intent = new Intent(LobbyListActivity.this, ArtifactListActivity.class);
             intent.putExtra("StringID", id);
+            intent.putExtra("preload", true);
             startActivity(intent);
         }
     }

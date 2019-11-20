@@ -37,4 +37,8 @@
     <string name="btnChange">Change</string>
     <string name="HuntNamePass">Enter Hunt name and password</string>
     <string name="logout">Logout</string>
+    <string name="fab_nothing_here">nothing here</string>
+    <string name="scan_for_artifacts">Click here to scan for artifacts</string>
+    <string name="findArtifacts">Artifacts left to find</string>
+    <string name="artifactHunt">Hunt for Artifacts</string>
 </resources>

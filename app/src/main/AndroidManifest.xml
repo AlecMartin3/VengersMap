@@ -18,7 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ArtifactListActivity"></activity>
+        <activity android:name=".ArtifactListActivity"
+            android:label="@string/artifactHunt"/>
         <activity android:name=".LobbyListActivity"
             android:label="@string/JoinHunt"/>
         <activity android:name=".CreateAHuntActivity"

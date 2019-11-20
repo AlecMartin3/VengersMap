@@ -12,22 +12,20 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
-public class ArtifactAdapter extends ArrayAdapter<Artifact> {
-
+public class PlayerAdapter extends ArrayAdapter<Player> {
     private Activity context;
-    private List<Artifact> artifactList;
+    private List<Player> PlayerList;
 
-
-    public ArtifactAdapter(Activity context, List<Artifact> artifactList) {
-        super(context, R.layout.list_view_object, artifactList);
+    public PlayerAdapter(Activity context, List<Player> PlayerList) {
+        super(context, R.layout.list_view_object, PlayerList);
         this.context = context;
-        this.artifactList = artifactList;
+        this.PlayerList = PlayerList;
     }
 
-    public ArtifactAdapter(Context context, int resource, List<Artifact> objects, Activity context1, List<Artifact> artifactList) {
+    public PlayerAdapter(Context context, int resource, List<Player> objects, Activity context1, List<Player> PlayerList) {
         super(context, resource, objects);
         this.context = context1;
-        this.artifactList = artifactList;
+        this.PlayerList = PlayerList;
     }
 
     @NonNull
@@ -39,14 +37,11 @@ public class ArtifactAdapter extends ArrayAdapter<Artifact> {
 
         TextView tvName = listViewItem.findViewById(R.id.tvArtifact);
 
-
-        Artifact art = artifactList.get(position);
+        Player art = PlayerList.get(position);
 
         tvName.setText(art.getArtName());
 
 
         return listViewItem;
     }
-
-
 }

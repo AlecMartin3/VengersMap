@@ -1,51 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <ImageView
-        android:id="@+id/ivVengerHome"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginTop="160dp"
+        android:id="@+id/ivGers2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/venger_home" />
+        android:layout_marginStart="14dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivVe2"
+        app:layout_constraintEnd_toEndOf="@+id/launchProfile"
+        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintStart_toEndOf="@+id/animation2"
+        app:srcCompat="@drawable/g" />
+
+    <ImageView
+        android:id="@+id/animation2"
+        android:layout_width="67dp"
+        android:layout_height="56dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivVe2"
+        app:layout_constraintEnd_toEndOf="@+id/launchProfile"
+        app:layout_constraintHorizontal_bias="0.18"
+        app:layout_constraintStart_toStartOf="@+id/launchProfile"
+        app:srcCompat="@drawable/logo" />
+
+    <ImageView
+        android:id="@+id/ivVe2"
+        android:layout_width="88dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="188dp"
+        android:layout_marginEnd="17dp"
+        app:layout_constraintEnd_toStartOf="@+id/animation2"
+        app:layout_constraintHorizontal_bias="0.858"
+        app:layout_constraintStart_toStartOf="@+id/launchProfile"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/v" />
 
     <Button
         android:id="@+id/launchProfile"
         android:layout_width="200dp"
-        android:textColor="@color/white"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="25dp"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:background="@color/colorPrimary"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="324dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
         android:onClick="ProfileCreateJoin"
-        android:text="@string/profile_page_title" />
+        android:text="@string/profile_page_title"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Button
         android:id="@+id/launchCreateAHunt"
         android:layout_width="200dp"
-        android:layout_marginBottom="25dp"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:background="@color/colorPrimary"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
         android:onClick="ProfileCreateJoin"
-        android:text="@string/CreateHunt" />
+        android:text="@string/CreateHunt"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/launchProfile"
+        app:layout_constraintStart_toStartOf="@+id/launchProfile"
+        app:layout_constraintTop_toBottomOf="@+id/launchProfile" />
 
     <Button
         android:id="@+id/launchJoinAHunt"
         android:layout_width="200dp"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:background="@color/colorPrimary"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
         android:onClick="ProfileCreateJoin"
-        android:text="@string/JoinHunt" />
+        android:text="@string/JoinHunt"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/launchCreateAHunt"
+        app:layout_constraintStart_toStartOf="@+id/launchCreateAHunt"
+        app:layout_constraintTop_toBottomOf="@+id/launchCreateAHunt" />
 
-</LinearLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="205dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="216dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
