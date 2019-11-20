@@ -40,8 +40,8 @@ public class StartupActivity extends AppCompatActivity {
         }
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
+    protected void onStart() {
+        super.onStart();
         d.start();
     }
 
