@@ -39,7 +39,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     private DatabaseReference databaseArtifact;
     private DatabaseReference databaseUser;
     private ListView lvArtifact;
-    private ArrayList<Artifact> ArtifactList;
+    private ArrayList<Artifact> artifactList;
     private ArrayList<Artifact> foundArtifacts;
     private int removeIndex = -1;
 
@@ -69,7 +69,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         databaseArtifact = FirebaseDatabase.getInstance().getReference("hunts").child(id);
         databaseUser = FirebaseDatabase.getInstance().getReference("players").child(userID);
         lvArtifact = findViewById(R.id.lvArtifacts);
-        ArtifactList = new ArrayList<>();
+        artifactList = new ArrayList<>();
         foundArtifacts = new ArrayList<>();
         fabScan = findViewById(R.id.fabScan);
         fabScan.setImageResource(R.drawable.loupe);
@@ -89,9 +89,9 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                 foundArtifacts.clear();
                 for (DataSnapshot CountSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot NameSnapshot : CountSnapshot.getChildren()) {
-                        Artifact player = NameSnapshot.getValue(Artifact.class);
-                        player.setArtName(NameSnapshot.child("artName").getValue().toString());
-                        foundArtifacts.add(player);
+                        Artifact artifact = NameSnapshot.getValue(Artifact.class);
+                        artifact.setArtName(NameSnapshot.child("artName").getValue().toString());
+                        foundArtifacts.add(artifact);
                     }
                 }
             }
@@ -104,16 +104,29 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         databaseArtifact.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArtifactList.clear();
+                artifactList.clear();
                 for (DataSnapshot CountSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot NameSnapshot : CountSnapshot.getChildren()) {
-                        Artifact Artifact = NameSnapshot.getValue(Artifact.class);
-                        Artifact.setArtName(NameSnapshot.child("artName").getValue().toString());
-                        ArtifactList.add(Artifact);
+                        Artifact artifact = NameSnapshot.getValue(Artifact.class);
+                        artifact.setArtName(NameSnapshot.child("artName").getValue().toString());
+
+                        boolean found = false;
+                        for (Artifact foundArtifact: foundArtifacts) {
+                            if (artifact.getArtName().equals(foundArtifact.getArtName())) {
+                                found = true;
+                            }
+                        }
+                        if (!found) {
+                            artifactList.add(artifact);
+                        } else {
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(artifact.getX(), artifact.getY()))
+                                    .title(artifact.getArtName()));
+                        }
                     }
                 }
 
-                ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, ArtifactList);
+                ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, artifactList);
                 lvArtifact.setAdapter(adapter);
             }
 
@@ -127,7 +140,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
             public void onClick(View view) {
                 removeIndex = -1;
                 boolean inrange = false;
-                for (Artifact a : ArtifactList) {
+                for (Artifact a : artifactList) {
 
                     if (inRange(a, CLOSE_RANGE)) {
                         inrange = true;
@@ -140,15 +153,13 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                                 .position(new LatLng(a.getX(), a.getY()))
                                 .title(a.getArtName()));
 
-
                         /** Adds artifact to users artifact list in database */
                         foundArtifacts.add(a);
                         databaseUser = FirebaseDatabase.getInstance().getReference("players").child(userID).child("Artifacts");
                         databaseUser.setValue(foundArtifacts);
 
                         /** Removes artifact from list when it's found */
-                        removeIndex = ArtifactList.indexOf(a);
-
+                        removeIndex = artifactList.indexOf(a);
 
                     } else if (inRange(a, MED_RANGE)) {
                         inrange = true;
@@ -176,8 +187,8 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                     toast.show();
                 }
                 if (removeIndex != -1) {
-                    ArtifactList.remove(removeIndex);
-                    ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, ArtifactList);
+                    artifactList.remove(removeIndex);
+                    ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, artifactList);
                     lvArtifact.setAdapter(adapter);
                 }
 
