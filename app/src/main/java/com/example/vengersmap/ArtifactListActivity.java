@@ -69,8 +69,8 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         databaseArtifact = FirebaseDatabase.getInstance().getReference("hunts").child(id);
         databaseUser = FirebaseDatabase.getInstance().getReference("players").child(userID);
         lvArtifact = findViewById(R.id.lvArtifacts);
-        ArtifactList = new ArrayList<Artifact>();
-        foundArtifacts = new ArrayList<Artifact>();
+        ArtifactList = new ArrayList<>();
+        foundArtifacts = new ArrayList<>();
         fabScan = findViewById(R.id.fabScan);
         fabScan.setImageResource(R.drawable.loupe);
 
@@ -109,36 +109,9 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                     for (DataSnapshot NameSnapshot : CountSnapshot.getChildren()) {
                         Artifact Artifact = NameSnapshot.getValue(Artifact.class);
                         Artifact.setArtName(NameSnapshot.child("artName").getValue().toString());
-//                        if (foundArtifacts.isEmpty())
-                            ArtifactList.add(Artifact);
-//
-//                        boolean found = false;
-//                        for (Artifact foundA: foundArtifacts) {
-//                            if (foundA.getArtName().equals(Artifact.getArtName())) {
-//                                found = true;
-//                            }
-//                            if (!found) {
-//                                ArtifactList.add(Artifact);
-//                            }
-//                        }
+                        ArtifactList.add(Artifact);
                     }
                 }
-
-
-
-//                ArrayList<Integer> removeIndexes = new ArrayList<>();
-//                for (Artifact a : ArtifactList) {
-//                    for (Artifact aa : foundArtifacts) {
-//                        if (a.getArtName().equals(aa.getArtName())) {
-//                            removeIndexes.add(ArtifactList.indexOf(a));
-//                        }
-//                    }
-//                }
-//
-//                for (int i : removeIndexes) {
-//                    System.out.println(i);
-//                    ArtifactList.remove(i);
-//                }
 
                 ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, ArtifactList);
                 lvArtifact.setAdapter(adapter);
@@ -191,15 +164,16 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                                 "Something's around here!",
                                 Toast.LENGTH_SHORT);
                         toast.show();
-                    } else if (!inrange) {
-                        System.out.println("nothing here");
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Nothing here",
-                                Toast.LENGTH_SHORT);
-
-                        toast.show();
                     }
 
+                }
+                if (!inrange) {
+                    System.out.println("nothing here");
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Nothing here",
+                            Toast.LENGTH_SHORT);
+
+                    toast.show();
                 }
                 if (removeIndex != -1) {
                     ArtifactList.remove(removeIndex);
@@ -209,8 +183,6 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
 
             }
         });
-
-
     }
 
     private boolean inRange(Artifact a, double levelRange) {
