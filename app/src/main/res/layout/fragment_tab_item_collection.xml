@@ -13,8 +13,8 @@
 <!--        android:textAppearance="?attr/textAppearanceListItem" />-->
     <ListView
         android:id="@+id/lvArtifacts"
-        android:layout_width="452dp"
-        android:layout_height="784dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
