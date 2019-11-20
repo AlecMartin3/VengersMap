@@ -46,7 +46,7 @@
         android:id="@+id/launchLogin"
         android:layout_width="200dp"
         android:layout_height="45dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
         android:background="@color/colorPrimary"
         android:gravity="center"
         android:onClick="LoginRegister"
@@ -54,14 +54,14 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/launchRegister"
         app:layout_constraintEnd_toEndOf="@+id/launchRegister"
-        app:layout_constraintHorizontal_bias="0.417"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/launchRegister" />
 
     <Button
         android:id="@+id/launchRegister"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="272dp"
+        android:layout_marginBottom="292dp"
         android:background="@color/colorPrimary"
         android:gravity="center"
         android:onClick="LoginRegister"
