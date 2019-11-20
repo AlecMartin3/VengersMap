@@ -77,8 +77,31 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
             }
         });
 
+        //Adds artifacts into the artifact list view
+        lvArtifacts = findViewById(R.id.lvArtifacts);
+        artifactList = new ArrayList<Artifact>();
+        lvArtifacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            //When artifact in the list view is clicked, opens new addArtifact activity and passes needed information
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
+                Intent appInfo = new Intent(CreateAHuntActivity.this, AddArtifact.class);
+                parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
+                String park = parkSpinner.getSelectedItem().toString();
+                appInfo.putExtra("park", park);
+                appInfo.putExtra("position", position);
+                appInfo.putExtra("artifact", artifactList.get(position));
+                startActivityForResult(appInfo, 1);
+            }
+        });
+
         //Seek bar used to allow the user to choose how many artifacts they want to add to the hunt
         SeekBar sk = (SeekBar) findViewById(R.id.sbHuntObjects);
+        sk.setProgress(1);
+
+        ArtifactAdapter adapter = new ArtifactAdapter(CreateAHuntActivity.this, artifactList);
+        lvArtifacts.setAdapter(adapter);
+
+
         sk.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -108,23 +131,6 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
                 ArtifactAdapter adapter = new ArtifactAdapter(CreateAHuntActivity.this, artifactList);
                 lvArtifacts.setAdapter(adapter);
 
-            }
-        });
-
-        //Adds artifacts into the artifact list view
-        lvArtifacts = findViewById(R.id.lvArtifacts);
-        artifactList = new ArrayList<Artifact>();
-        lvArtifacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            //When artifact in the list view is clicked, opens new addArtifact activity and passes needed information
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                Intent appInfo = new Intent(CreateAHuntActivity.this, AddArtifact.class);
-                parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
-                String park = parkSpinner.getSelectedItem().toString();
-                appInfo.putExtra("park", park);
-                appInfo.putExtra("position", position);
-                appInfo.putExtra("artifact", artifactList.get(position));
-                startActivityForResult(appInfo, 1);
             }
         });
 
