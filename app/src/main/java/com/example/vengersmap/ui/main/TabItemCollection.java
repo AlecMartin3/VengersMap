@@ -18,7 +18,6 @@ import com.example.vengersmap.Artifact;
 import com.example.vengersmap.ArtifactAdapter;
 import com.example.vengersmap.Player;
 import com.example.vengersmap.R;
-import com.example.vengersmap.ui.main.dummy.DummyContent;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +27,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-//import com.example.vengersmap.ui.main.dummy.DummyContent.DummyItem;
 
 /**
  * A fragment representing a list of Items.
@@ -124,7 +122,6 @@ public class TabItemCollection extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }
         return view;
     }
