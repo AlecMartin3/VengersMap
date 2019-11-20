@@ -3,6 +3,7 @@ package com.example.vengersmap;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -61,8 +62,8 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+        Intent i = getIntent();
         setContentView(R.layout.activity_artifact_list);
         id = getIntent().getExtras().getString("StringID");
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -94,6 +95,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                         foundArtifacts.add(artifact);
                     }
                 }
+
             }
 
             @Override
@@ -111,7 +113,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                         artifact.setArtName(NameSnapshot.child("artName").getValue().toString());
 
                         boolean found = false;
-                        for (Artifact foundArtifact: foundArtifacts) {
+                        for (Artifact foundArtifact : foundArtifacts) {
                             if (artifact.getArtName().equals(foundArtifact.getArtName())) {
                                 found = true;
                             }
@@ -135,15 +137,24 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
             }
         });
 
+        boolean preload = getIntent().getBooleanExtra("preload", false);
+        if (preload) {
+            System.out.println("***************PRELOADING");
+            Intent i = getIntent();
+            i.removeExtra("preload");
+            finish();
+            startActivity(i);
+        }
+
         fabScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 removeIndex = -1;
-                boolean inrange = false;
+                boolean inRange = false;
                 for (Artifact a : artifactList) {
 
                     if (inRange(a, CLOSE_RANGE)) {
-                        inrange = true;
+                        inRange = true;
                         System.out.println("found something");
                         Toast toast = Toast.makeText(getApplicationContext(),
                                 "Found something!",
@@ -162,23 +173,22 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
                         removeIndex = artifactList.indexOf(a);
 
                     } else if (inRange(a, MED_RANGE)) {
-                        inrange = true;
+                        inRange = true;
                         System.out.println("getting closer");
                         Toast toast = Toast.makeText(getApplicationContext(),
                                 "Getting closer!",
                                 Toast.LENGTH_SHORT);
                         toast.show();
                     } else if (inRange(a, LONG_RANGE)) {
-                        inrange = true;
+                        inRange = true;
                         System.out.println("something's around here");
                         Toast toast = Toast.makeText(getApplicationContext(),
                                 "Something's around here!",
                                 Toast.LENGTH_SHORT);
                         toast.show();
                     }
-
                 }
-                if (!inrange) {
+                if (!inRange) {
                     System.out.println("nothing here");
                     Toast toast = Toast.makeText(getApplicationContext(),
                             "Nothing here",
@@ -227,7 +237,6 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
          */
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             System.out.println("PERMISSION DENIED");
-
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSIONS_REQUEST_FINE_LOCATION);

@@ -109,6 +109,7 @@ public class LobbyListActivity extends AppCompatActivity {
         }else{
             Intent intent = new Intent(LobbyListActivity.this, ArtifactListActivity.class);
             intent.putExtra("StringID", id);
+            intent.putExtra("preload", true);
             startActivity(intent);
         }
     }
