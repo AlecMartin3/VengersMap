@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -157,7 +158,7 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
-            if(resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
                 String artName = data.getStringExtra("name");
                 int pos = data.getIntExtra("position", 1);
                 double x = data.getDoubleExtra("x", 1);
@@ -171,7 +172,6 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
             }
         }
     }
-
     /**
      * Adds the hunt to the database. Creates a unique id for each hunt and gets the name and password
      * from the edit texts above and passes them into the database. Also gets the list of artifacts
@@ -183,6 +183,16 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
         huntPass = etHuntPass.getText().toString();
         parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
         String park = parkSpinner.getSelectedItem().toString();
+
+        if (TextUtils.isEmpty(huntName)) {
+            Toast.makeText(this, "Please enter a hunt name", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (artifactList.isEmpty()) {
+            Toast.makeText(this, "Please include some artifacts", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         HuntItem hunt = null;
         hunt = new HuntItem(id, huntName, huntPass, park);
