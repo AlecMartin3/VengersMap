@@ -245,16 +245,17 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
             finish();
             ActivityCompat.recreate(this);
             return;
+        } else {
+            mMap.setMyLocationEnabled(true);
+
+            findDeviceLocation();
+            mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(deviceLatitude, deviceLongitude), 18)));
+
+            /**
+             * Requests the current location periodically
+             */
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
         }
-        mMap.setMyLocationEnabled(true);
-
-        findDeviceLocation();
-        mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(deviceLatitude, deviceLongitude), 18)));
-
-        /**
-         * Requests the current location periodically
-         */
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
     }
 
     private void findDeviceLocation() {

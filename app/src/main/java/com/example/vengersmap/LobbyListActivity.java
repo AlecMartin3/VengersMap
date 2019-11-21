@@ -57,12 +57,14 @@ public class LobbyListActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 HuntList.clear();
                 for (DataSnapshot huntSnapshot : dataSnapshot.getChildren()) {
-                    HuntItem hunt = huntSnapshot.getValue(HuntItem.class);
-                    hunt.setId(huntSnapshot.getKey());
-                    hunt.setHuntName(huntSnapshot.child("Name").getValue().toString());
-                    hunt.setHuntPark(huntSnapshot.child("Park").getValue().toString());
-                    hunt.setHuntPassword(huntSnapshot.child("Password").getValue().toString());
-                    HuntList.add(hunt);
+                    try {
+                        HuntItem hunt = huntSnapshot.getValue(HuntItem.class);
+                        hunt.setId(huntSnapshot.getKey());
+                        hunt.setHuntName(huntSnapshot.child("Name").getValue().toString());
+                        hunt.setHuntPark(huntSnapshot.child("Park").getValue().toString());
+                        hunt.setHuntPassword(huntSnapshot.child("Password").getValue().toString());
+                        HuntList.add(hunt);
+                    } catch (Exception e) {}
             }
 
                 HuntItemAdapter adapter = new HuntItemAdapter(LobbyListActivity.this, HuntList);
@@ -103,8 +105,6 @@ public class LobbyListActivity extends AppCompatActivity {
                         startActivity(intent);
 
                     }
-
-
                 }
             });
         }else{

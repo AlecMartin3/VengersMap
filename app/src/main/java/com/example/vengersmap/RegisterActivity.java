@@ -2,6 +2,7 @@ package com.example.vengersmap;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,11 +44,21 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
 
+                if (TextUtils.isEmpty(email.getText().toString())) {
+                    Toast.makeText(getApplicationContext(), "Please enter an email", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(password.getText().toString())) {
+                    Toast.makeText(getApplicationContext(), "Please enter a password", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 firebaseAuth.createUserWithEmailAndPassword((email.getText().toString()),
                         password.getText().toString())
                         .addOnCompleteListener((new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
+
                                 if(task.isSuccessful()){
                                     Toast.makeText(RegisterActivity.this,
                                             "Registered Successfully",
