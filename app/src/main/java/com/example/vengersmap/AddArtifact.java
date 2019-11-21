@@ -2,9 +2,11 @@ package com.example.vengersmap;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
@@ -395,6 +397,12 @@ public class AddArtifact extends AppCompatActivity implements OnMapReadyCallback
         getPoint();
         etArtName = findViewById(R.id.etArtifactName);
         name = etArtName.getText().toString();
+
+        if (TextUtils.isEmpty(name)) {
+            Toast.makeText(this, "Please enter an Artifact name", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         Intent intent = new Intent();
         intent.putExtra("name", name);
         intent.putExtra("position", position);

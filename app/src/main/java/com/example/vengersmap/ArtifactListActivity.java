@@ -47,9 +47,9 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     public SupportMapFragment mapFragment;
     private GoogleMap mMap;
     private FloatingActionButton fabScan;
-    private static final double CLOSE_RANGE = 0.00005; // roughly 5m
-    private static final double MED_RANGE = 0.00010;  //          10m
-    private static final double LONG_RANGE = 0.00020; //          20m
+    private static final double CLOSE_RANGE = 0.00015; // roughly 15m
+    private static final double MED_RANGE   = 0.00025; //         25m
+    private static final double LONG_RANGE  = 0.00035; //         35m
 
 
     private LocationManager lm;
