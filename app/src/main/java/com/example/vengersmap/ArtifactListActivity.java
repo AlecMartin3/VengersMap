@@ -33,6 +33,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+/**
+ * The main hunt playing class. When entering a hunt it loads a map of your current position and
+ * adds the artifacts in the hunt to the list. The list is updated as items are found and added to
+ * your collection.
+ *
+ * Uses a scan button to check if user is within range of each artifact to find it. Custom toasts
+ * appear based on their distance from an artifact.
+ */
 public class ArtifactListActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
     private String id;
@@ -58,6 +66,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     private static final int MIN_TIME = 500;
     private static final int MIN_DISTANCE = 5;
     static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 99;
+
 
 
     @Override
@@ -206,6 +215,12 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         });
     }
 
+    /**
+     * Checks to see if the person is in range of an aritfact.
+     * @param a
+     * @param levelRange
+     * @return
+     */
     private boolean inRange(Artifact a, double levelRange) {
 
         double artLong = a.getY(); // These values are backwards!! WHY?!!

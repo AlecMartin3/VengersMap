@@ -22,12 +22,17 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Displays all of the current hunts in the database in a list view. Prompts for a password
+ * if the hunt is password protected
+ */
 public class LobbyListActivity extends AppCompatActivity {
 
     DatabaseReference databaseHunt;
     ListView lvHunt;
     List<HuntItem> HuntList;
     private ValueEventListener listener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +54,10 @@ public class LobbyListActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Pulls hunt data from Firebase and adds them to the list view using a hunt adapter.
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -79,6 +88,12 @@ public class LobbyListActivity extends AppCompatActivity {
         super.onDestroy();
         databaseHunt.removeEventListener(listener);
     }
+
+    /**
+     * Checks if a hunt has a password and if so pops up a dialogue box asking for the password.
+     * @param id
+     * @param password
+     */
     private void showPasswordDialog(final String id,  final String password){
         if(!(password.equals(""))) {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);

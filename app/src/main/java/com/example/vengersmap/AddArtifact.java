@@ -21,6 +21,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
+/**
+ * Customization for each artifact that is added to a hunt. Allows the user to set a name and location
+ * within their selected park.
+ */
 public class AddArtifact extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
@@ -36,6 +40,12 @@ public class AddArtifact extends AppCompatActivity implements OnMapReadyCallback
     public SupportMapFragment mapFragment;
 
 
+    /**
+     * Gets park and position of the artifact in the list from the previous activity.
+     * Creates locations based on the park and loads the map
+     *
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artifact);
@@ -388,7 +398,7 @@ public class AddArtifact extends AppCompatActivity implements OnMapReadyCallback
     }
 
     /**
-     * calls the getPoint function to grab x and y coord. Gets the artifact name and positions,
+     * Calls the getPoint function to grab x and y coord. Gets the artifact name and positions,
      * then passes all the info back to the CreateAHunt activity and closes the activity.
      *
      * @param view

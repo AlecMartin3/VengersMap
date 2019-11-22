@@ -9,6 +9,10 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+/**
+ * Splash page the user will see after login. Has three buttons. One for profile, one for creating a
+ * hunt and one for joining a hunt.
+ */
 public class SplashActivity extends AppCompatActivity {
     AnimatedVectorDrawable d;
     ImageView avd;
@@ -21,6 +25,10 @@ public class SplashActivity extends AppCompatActivity {
         avd.setImageDrawable(d);
     }
 
+    /**
+     * Button function that takes user to desired activity.
+     * @param view
+     */
     public void ProfileCreateJoin(View view){
         Intent intent = null;
         if(view.getId()== R.id.launchProfile){

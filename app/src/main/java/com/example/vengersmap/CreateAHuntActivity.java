@@ -39,6 +39,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Creates page used to allow the user to create a hunt. Each hunt has a custom amount of artifacts
+ * from 1-10. Has optional password protection.
+ */
 public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;

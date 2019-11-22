@@ -1,5 +1,8 @@
 package com.example.vengersmap;
 
+/**
+ * Location class with a name, Lat and Long coords.
+ */
 public class Location {
     private double x;
     private double y;
