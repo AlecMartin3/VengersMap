@@ -12,6 +12,9 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+/**
+ * Adapter to place artifacs in a list view showing their names
+ */
 public class ArtifactAdapter extends ArrayAdapter<Artifact> {
 
     private Activity context;
