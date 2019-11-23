@@ -15,10 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vengersmap.Artifact;
+import com.example.vengersmap.ArtifactAdapter;
 import com.example.vengersmap.Player;
-import com.example.vengersmap.PlayerAdapter;
 import com.example.vengersmap.R;
-import com.example.vengersmap.ui.main.dummy.DummyContent;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +27,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-//import com.example.vengersmap.ui.main.dummy.DummyContent.DummyItem;
 
 /**
  * A fragment representing a list of Items.
@@ -38,12 +36,11 @@ import java.util.ArrayList;
  */
 public class TabItemCollection extends Fragment {
 
-
+    private ValueEventListener listener;
     DatabaseReference databaseUser;
     ListView lvPlayer;
     private ListView lvArtifacts;
-    ArrayList<Player> PlayerList;
-    ArrayList<Artifact> ArtifactList;
+    ArrayList<Artifact> artifactList;
     String uid;
 
     // TODO: Customize parameter argument names
@@ -58,27 +55,31 @@ public class TabItemCollection extends Fragment {
      */
     public TabItemCollection() {
     }
-
+    public  void onDestroyView() {
+        super.onDestroyView();
+        databaseUser.removeEventListener(listener);
+    }
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        System.out.println("********" + uid + "********");
         databaseUser = FirebaseDatabase.getInstance().getReference("players").child(uid);
-        PlayerList = new ArrayList<Player>();
+        artifactList = new ArrayList<Artifact>();
         lvArtifacts = (ListView) view.findViewById(R.id.lvArtifacts);
-        databaseUser.addValueEventListener(new ValueEventListener() {
+        listener = databaseUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                PlayerList.clear();
+                artifactList.clear();
                 for (DataSnapshot CountSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot NameSnapshot : CountSnapshot.getChildren()) {
-                        Player player = NameSnapshot.getValue(Player.class);
-                        System.out.println("********" + NameSnapshot.child("artName").getValue().toString() + "********");
+                        Artifact player = NameSnapshot.getValue(Artifact.class);
                         player.setArtName(NameSnapshot.child("artName").getValue().toString());
-                        PlayerList.add(player);
+                        artifactList.add(player);
                     }
 
                 }
-                PlayerAdapter adapter = new PlayerAdapter(getActivity(), PlayerList);
+                System.out.println(getActivity());
+                System.out.println(artifactList);
+
+                ArtifactAdapter adapter = new ArtifactAdapter(getActivity(), artifactList);
                 lvArtifacts.setAdapter(adapter);
             }
 
@@ -121,7 +122,6 @@ public class TabItemCollection extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }
         return view;
     }

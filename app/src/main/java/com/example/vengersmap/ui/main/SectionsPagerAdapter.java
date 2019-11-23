@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.vengersmap.R;
-import com.google.android.material.tabs.TabItem;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to

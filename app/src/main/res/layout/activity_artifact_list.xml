@@ -37,6 +37,15 @@
             android:tooltipText="@string/scan_for_artifacts" />
     </FrameLayout>
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:text="@string/findArtifacts" />
+
     <ListView
         android:id="@+id/lvArtifacts"
         android:layout_width="match_parent"

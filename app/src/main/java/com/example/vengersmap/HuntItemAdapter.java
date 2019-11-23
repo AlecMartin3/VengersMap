@@ -14,6 +14,9 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
+/**
+ * Allows adding hunts to a list view showing name and park
+ */
 public class HuntItemAdapter extends ArrayAdapter<HuntItem> {
     private Activity context;
     private List<HuntItem> HuntList;

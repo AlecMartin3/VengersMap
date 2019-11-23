@@ -1,5 +1,9 @@
 package com.example.vengersmap;
 
+
+/**
+ * Hunt class. Each hunt has a name, password, park and unique ID
+ */
 public class HuntItem {
     private String huntName;
     private String huntPassword;

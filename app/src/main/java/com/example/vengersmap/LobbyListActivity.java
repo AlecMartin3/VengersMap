@@ -1,9 +1,5 @@
 package com.example.vengersmap;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +8,10 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,11 +22,17 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Displays all of the current hunts in the database in a list view. Prompts for a password
+ * if the hunt is password protected
+ */
 public class LobbyListActivity extends AppCompatActivity {
 
     DatabaseReference databaseHunt;
     ListView lvHunt;
     List<HuntItem> HuntList;
+    private ValueEventListener listener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,20 +54,26 @@ public class LobbyListActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Pulls hunt data from Firebase and adds them to the list view using a hunt adapter.
+     */
     @Override
     protected void onStart() {
         super.onStart();
-        databaseHunt.addValueEventListener(new ValueEventListener() {
+        listener = databaseHunt.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 HuntList.clear();
                 for (DataSnapshot huntSnapshot : dataSnapshot.getChildren()) {
-                    HuntItem hunt = huntSnapshot.getValue(HuntItem.class);
-                    hunt.setId(huntSnapshot.getKey());
-                    hunt.setHuntName(huntSnapshot.child("Name").getValue().toString());
-                    hunt.setHuntPark(huntSnapshot.child("Park").getValue().toString());
-                    hunt.setHuntPassword(huntSnapshot.child("Password").getValue().toString());
-                    HuntList.add(hunt);
+                    try {
+                        HuntItem hunt = huntSnapshot.getValue(HuntItem.class);
+                        hunt.setId(huntSnapshot.getKey());
+                        hunt.setHuntName(huntSnapshot.child("Name").getValue().toString());
+                        hunt.setHuntPark(huntSnapshot.child("Park").getValue().toString());
+                        hunt.setHuntPassword(huntSnapshot.child("Password").getValue().toString());
+                        HuntList.add(hunt);
+                    } catch (Exception e) {}
             }
 
                 HuntItemAdapter adapter = new HuntItemAdapter(LobbyListActivity.this, HuntList);
@@ -72,6 +84,16 @@ public class LobbyListActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
     }
+    public  void onDestroy() {
+        super.onDestroy();
+        databaseHunt.removeEventListener(listener);
+    }
+
+    /**
+     * Checks if a hunt has a password and if so pops up a dialogue box asking for the password.
+     * @param id
+     * @param password
+     */
     private void showPasswordDialog(final String id,  final String password){
         if(!(password.equals(""))) {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
@@ -94,16 +116,16 @@ public class LobbyListActivity extends AppCompatActivity {
                         Intent intent = new Intent(LobbyListActivity.this, ArtifactListActivity.class);
                         System.out.println(id);
                         intent.putExtra("StringID", id);
+                        intent.putExtra("preload", true);
                         startActivity(intent);
 
                     }
-
-
                 }
             });
         }else{
             Intent intent = new Intent(LobbyListActivity.this, ArtifactListActivity.class);
             intent.putExtra("StringID", id);
+            intent.putExtra("preload", true);
             startActivity(intent);
         }
     }

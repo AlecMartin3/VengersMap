@@ -3,6 +3,7 @@ package com.example.vengersmap;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -32,6 +33,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+/**
+ * The main hunt playing class. When entering a hunt it loads a map of your current position and
+ * adds the artifacts in the hunt to the list. The list is updated as items are found and added to
+ * your collection.
+ *
+ * Uses a scan button to check if user is within range of each artifact to find it. Custom toasts
+ * appear based on their distance from an artifact.
+ */
 public class ArtifactListActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
     private String id;
@@ -39,14 +48,16 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     private DatabaseReference databaseArtifact;
     private DatabaseReference databaseUser;
     private ListView lvArtifact;
-    private ArrayList<Artifact> ArtifactList;
+    private ArrayList<Artifact> artifactList;
+    private ArrayList<Artifact> foundArtifacts;
+    private int removeIndex = -1;
 
     public SupportMapFragment mapFragment;
     private GoogleMap mMap;
     private FloatingActionButton fabScan;
-    private static final double CLOSE_RANGE = 0.00005; // roughly 5m
-    private static final double MED_RANGE = 0.00010;  //         10m
-    private static final double LONG_RANGE = 0.00020; //         20m
+    private static final double CLOSE_RANGE = 0.00015; // roughly 15m
+    private static final double MED_RANGE   = 0.00025; //         25m
+    private static final double LONG_RANGE  = 0.00035; //         35m
 
 
     private LocationManager lm;
@@ -57,16 +68,19 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 99;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent i = getIntent();
         setContentView(R.layout.activity_artifact_list);
         id = getIntent().getExtras().getString("StringID");
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
         databaseArtifact = FirebaseDatabase.getInstance().getReference("hunts").child(id);
+        databaseUser = FirebaseDatabase.getInstance().getReference("players").child(userID);
         lvArtifact = findViewById(R.id.lvArtifacts);
-        ArtifactList = new ArrayList<Artifact>();
+        artifactList = new ArrayList<>();
+        foundArtifacts = new ArrayList<>();
         fabScan = findViewById(R.id.fabScan);
         fabScan.setImageResource(R.drawable.loupe);
 
@@ -79,19 +93,51 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     @Override
     protected void onStart() {
         super.onStart();
+        databaseUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                foundArtifacts.clear();
+                for (DataSnapshot CountSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot NameSnapshot : CountSnapshot.getChildren()) {
+                        Artifact artifact = NameSnapshot.getValue(Artifact.class);
+                        artifact.setArtName(NameSnapshot.child("artName").getValue().toString());
+                        foundArtifacts.add(artifact);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
         databaseArtifact.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArtifactList.clear();
+                artifactList.clear();
                 for (DataSnapshot CountSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot NameSnapshot : CountSnapshot.getChildren()) {
-                        Artifact Artifact = NameSnapshot.getValue(Artifact.class);
-                        Artifact.setArtName(NameSnapshot.child("artName").getValue().toString());
-                        ArtifactList.add(Artifact);
+                        Artifact artifact = NameSnapshot.getValue(Artifact.class);
+                        artifact.setArtName(NameSnapshot.child("artName").getValue().toString());
+
+                        boolean found = false;
+                        for (Artifact foundArtifact : foundArtifacts) {
+                            if (artifact.getArtName().equals(foundArtifact.getArtName())) {
+                                found = true;
+                            }
+                        }
+                        if (!found) {
+                            artifactList.add(artifact);
+                        } else {
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(artifact.getX(), artifact.getY()))
+                                    .title(artifact.getArtName()));
+                        }
                     }
                 }
-                ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, ArtifactList);
+
+                ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, artifactList);
                 lvArtifact.setAdapter(adapter);
             }
 
@@ -99,62 +145,82 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
+        boolean preload = getIntent().getBooleanExtra("preload", false);
+        if (preload) {
+            System.out.println("***************PRELOADING");
+            Intent i = getIntent();
+            i.removeExtra("preload");
+            finish();
+            startActivity(i);
+        }
+
         fabScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                for (Artifact a: ArtifactList) {
+                removeIndex = -1;
+                boolean inRange = false;
+                for (Artifact a : artifactList) {
 
                     if (inRange(a, CLOSE_RANGE)) {
+                        inRange = true;
                         System.out.println("found something");
                         Toast toast = Toast.makeText(getApplicationContext(),
                                 "Found something!",
                                 Toast.LENGTH_SHORT);
                         toast.show();
                         mMap.addMarker(new MarkerOptions()
-                                        .position(new LatLng(a.getX(), a.getY()))
-                                        .title(a.getArtName()));
+                                .position(new LatLng(a.getX(), a.getY()))
+                                .title(a.getArtName()));
 
                         /** Adds artifact to users artifact list in database */
-                        String toCollect = a.getArtName();
+                        foundArtifacts.add(a);
                         databaseUser = FirebaseDatabase.getInstance().getReference("players").child(userID).child("Artifacts");
-                        databaseUser.setValue(toCollect);
-
+                        databaseUser.setValue(foundArtifacts);
 
                         /** Removes artifact from list when it's found */
-                        ArtifactList.remove(a);
-                        ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, ArtifactList);
-                        lvArtifact.setAdapter(adapter);
-
+                        removeIndex = artifactList.indexOf(a);
 
                     } else if (inRange(a, MED_RANGE)) {
+                        inRange = true;
                         System.out.println("getting closer");
                         Toast toast = Toast.makeText(getApplicationContext(),
                                 "Getting closer!",
                                 Toast.LENGTH_SHORT);
                         toast.show();
                     } else if (inRange(a, LONG_RANGE)) {
+                        inRange = true;
                         System.out.println("something's around here");
                         Toast toast = Toast.makeText(getApplicationContext(),
                                 "Something's around here!",
                                 Toast.LENGTH_SHORT);
                         toast.show();
-                    } else {
-                        System.out.println("nothing here");
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Nothing here",
-                                Toast.LENGTH_SHORT);
-
-                        toast.show();
                     }
-
                 }
+                if (!inRange) {
+                    System.out.println("nothing here");
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Nothing here",
+                            Toast.LENGTH_SHORT);
+
+                    toast.show();
+                }
+                if (removeIndex != -1) {
+                    artifactList.remove(removeIndex);
+                    ArtifactAdapter adapter = new ArtifactAdapter(ArtifactListActivity.this, artifactList);
+                    lvArtifact.setAdapter(adapter);
+                }
+
             }
         });
-
-
     }
 
+    /**
+     * Checks to see if the person is in range of an aritfact.
+     * @param a
+     * @param levelRange
+     * @return
+     */
     private boolean inRange(Artifact a, double levelRange) {
 
         double artLong = a.getY(); // These values are backwards!! WHY?!!
@@ -164,7 +230,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         System.out.println("Device at: " + deviceLatitude + " " + deviceLongitude);
 
         if (artLong - levelRange <= deviceLongitude && deviceLongitude <= artLong + levelRange &&
-            artLat - levelRange <= deviceLatitude && deviceLatitude <= artLat + levelRange)
+                artLat - levelRange <= deviceLatitude && deviceLatitude <= artLat + levelRange)
             return true;
 
         return false;
@@ -173,6 +239,7 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
     /**
      * When Map is ready, location permission is acquired and user is located on map.
      * User will be followed while map is active.
+     *
      * @param googleMap
      */
     @Override
@@ -185,7 +252,6 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
          */
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             System.out.println("PERMISSION DENIED");
-
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSIONS_REQUEST_FINE_LOCATION);
@@ -194,16 +260,17 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
             finish();
             ActivityCompat.recreate(this);
             return;
+        } else {
+            mMap.setMyLocationEnabled(true);
+
+            findDeviceLocation();
+            mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(deviceLatitude, deviceLongitude), 18)));
+
+            /**
+             * Requests the current location periodically
+             */
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
         }
-        mMap.setMyLocationEnabled(true);
-
-        findDeviceLocation();
-        mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(new LatLng(deviceLatitude, deviceLongitude), 18)));
-
-        /**
-         * Requests the current location periodically
-         */
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
     }
 
     private void findDeviceLocation() {

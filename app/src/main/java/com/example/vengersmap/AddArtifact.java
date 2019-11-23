@@ -2,9 +2,11 @@ package com.example.vengersmap;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
@@ -19,6 +21,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
+/**
+ * Customization for each artifact that is added to a hunt. Allows the user to set a name and location
+ * within their selected park.
+ */
 public class AddArtifact extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
@@ -34,6 +40,12 @@ public class AddArtifact extends AppCompatActivity implements OnMapReadyCallback
     public SupportMapFragment mapFragment;
 
 
+    /**
+     * Gets park and position of the artifact in the list from the previous activity.
+     * Creates locations based on the park and loads the map
+     *
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artifact);
@@ -386,7 +398,7 @@ public class AddArtifact extends AppCompatActivity implements OnMapReadyCallback
     }
 
     /**
-     * calls the getPoint function to grab x and y coord. Gets the artifact name and positions,
+     * Calls the getPoint function to grab x and y coord. Gets the artifact name and positions,
      * then passes all the info back to the CreateAHunt activity and closes the activity.
      *
      * @param view
@@ -395,6 +407,12 @@ public class AddArtifact extends AppCompatActivity implements OnMapReadyCallback
         getPoint();
         etArtName = findViewById(R.id.etArtifactName);
         name = etArtName.getText().toString();
+
+        if (TextUtils.isEmpty(name)) {
+            Toast.makeText(this, "Please enter an Artifact name", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         Intent intent = new Intent();
         intent.putExtra("name", name);
         intent.putExtra("position", position);

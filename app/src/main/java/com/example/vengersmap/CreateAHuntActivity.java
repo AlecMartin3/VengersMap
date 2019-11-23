@@ -1,11 +1,12 @@
 package com.example.vengersmap;
 
-import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +17,8 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -36,6 +39,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Creates page used to allow the user to create a hunt. Each hunt has a custom amount of artifacts
+ * from 1-10. Has optional password protection.
+ */
 public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
@@ -77,8 +84,31 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
             }
         });
 
+        //Adds artifacts into the artifact list view
+        lvArtifacts = findViewById(R.id.lvArtifacts);
+        artifactList = new ArrayList<Artifact>();
+        lvArtifacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            //When artifact in the list view is clicked, opens new addArtifact activity and passes needed information
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
+                Intent appInfo = new Intent(CreateAHuntActivity.this, AddArtifact.class);
+                parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
+                String park = parkSpinner.getSelectedItem().toString();
+                appInfo.putExtra("park", park);
+                appInfo.putExtra("position", position);
+                appInfo.putExtra("artifact", artifactList.get(position));
+                startActivityForResult(appInfo, 1);
+            }
+        });
+
         //Seek bar used to allow the user to choose how many artifacts they want to add to the hunt
         SeekBar sk = (SeekBar) findViewById(R.id.sbHuntObjects);
+        sk.setProgress(1);
+
+        ArtifactAdapter adapter = new ArtifactAdapter(CreateAHuntActivity.this, artifactList);
+        lvArtifacts.setAdapter(adapter);
+
+
         sk.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -111,23 +141,6 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
             }
         });
 
-        //Adds artifacts into the artifact list view
-        lvArtifacts = findViewById(R.id.lvArtifacts);
-        artifactList = new ArrayList<Artifact>();
-        lvArtifacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            //When artifact in the list view is clicked, opens new addArtifact activity and passes needed information
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                Intent appInfo = new Intent(CreateAHuntActivity.this, AddArtifact.class);
-                parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
-                String park = parkSpinner.getSelectedItem().toString();
-                appInfo.putExtra("park", park);
-                appInfo.putExtra("position", position);
-                appInfo.putExtra("artifact", artifactList.get(position));
-                startActivityForResult(appInfo, 1);
-            }
-        });
-
         locList = new ArrayList<Location>();
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -149,7 +162,7 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
-            if(resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
                 String artName = data.getStringExtra("name");
                 int pos = data.getIntExtra("position", 1);
                 double x = data.getDoubleExtra("x", 1);
@@ -163,7 +176,6 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
             }
         }
     }
-
     /**
      * Adds the hunt to the database. Creates a unique id for each hunt and gets the name and password
      * from the edit texts above and passes them into the database. Also gets the list of artifacts
@@ -175,6 +187,16 @@ public class CreateAHuntActivity extends FragmentActivity implements OnMapReadyC
         huntPass = etHuntPass.getText().toString();
         parkSpinner = (Spinner) findViewById(R.id.spinnerPark);
         String park = parkSpinner.getSelectedItem().toString();
+
+        if (TextUtils.isEmpty(huntName)) {
+            Toast.makeText(this, "Please enter a hunt name", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (artifactList.isEmpty()) {
+            Toast.makeText(this, "Please include some artifacts", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         HuntItem hunt = null;
         hunt = new HuntItem(id, huntName, huntPass, park);
