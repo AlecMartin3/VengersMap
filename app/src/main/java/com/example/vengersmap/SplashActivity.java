@@ -44,6 +44,9 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+    /**
+     * Starts the animation of the N in Vengers.
+     */
     @Override
     protected void onStart() {
         super.onStart();

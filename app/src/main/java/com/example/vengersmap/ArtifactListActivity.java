@@ -69,6 +69,12 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
 
 
 
+    /**
+     * Gets all the information that is needed for the rest of the activity during its creation.
+     * Gets firebase references, creates lists, and grabs information from past intents.
+     * Also deals with the google map and sets it up for future use.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +96,9 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         mapFragment.getMapAsync(this);
     }
 
+    /**
+     * Grabs the artifacts from the firebase for the list
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -273,12 +282,20 @@ public class ArtifactListActivity extends AppCompatActivity implements OnMapRead
         }
     }
 
+    /**
+     * Gets the location of the user. Requests permission before information can be passed to this
+     * class
+     */
     private void findDeviceLocation() {
         @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         deviceLongitude = location.getLongitude();
         deviceLatitude = location.getLatitude();
     }
 
+    /**
+     * Checks if the location has changed.
+     * @param location
+     */
     @Override
     public void onLocationChanged(Location location) {
         deviceLongitude = location.getLongitude();

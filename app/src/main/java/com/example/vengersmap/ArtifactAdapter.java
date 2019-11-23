@@ -33,6 +33,13 @@ public class ArtifactAdapter extends ArrayAdapter<Artifact> {
         this.artifactList = artifactList;
     }
 
+    /**
+     * Gets the view for the adapter
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

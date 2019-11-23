@@ -1,17 +1,14 @@
 package com.example.vengersmap.ui.main;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.example.vengersmap.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,15 +20,15 @@ import com.google.firebase.auth.FirebaseUser;
  * {@link TabInformation.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link TabInformation#newInstance} factory method to
+ * Was auto generated
  * create an instance of this fragment.
+ * Is the fragment in the profile that displays the users basic information, namely their email.
  */
 public class TabInformation extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -53,7 +50,6 @@ public class TabInformation extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment TabInformation.
      */
-    // TODO: Rename and change types and number of parameters
     public static TabInformation newInstance(String param1, String param2) {
         TabInformation fragment = new TabInformation();
         Bundle args = new Bundle();

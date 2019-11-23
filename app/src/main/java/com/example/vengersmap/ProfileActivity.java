@@ -14,6 +14,11 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * Profile activity that uses the fragments TabInformation and TabItemCollection
+ * The fragments are displayed onto this activity.
+ * Has a logout button, and sends the user back to the login page if they click "back"
+ */
 public class ProfileActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;

@@ -12,6 +12,9 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+/**
+ * Is an HTTP Handler that sets a HTTP url connection
+ */
 public class HttpHandler {
     private static final String TAG = HttpHandler.class.getSimpleName();
     public HttpHandler() {   }

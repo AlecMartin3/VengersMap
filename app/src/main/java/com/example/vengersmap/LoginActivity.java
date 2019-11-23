@@ -1,8 +1,5 @@
 package com.example.vengersmap;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,11 +8,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Log in class that checks if the user is authenticated with the FirebaseAuth and then logs them in
+ * Can be used to direct the user to the register activity if they do not currently have an account.
+ */
 public class LoginActivity extends AppCompatActivity {
     EditText email;
     EditText password;

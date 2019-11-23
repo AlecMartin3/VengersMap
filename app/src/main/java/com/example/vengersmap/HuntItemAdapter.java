@@ -1,16 +1,11 @@
 package com.example.vengersmap;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -25,6 +20,14 @@ public class HuntItemAdapter extends ArrayAdapter<HuntItem> {
         this.context = context;
         this.HuntList = HuntList;
     }
+
+    /**
+     * Gets the view for the adapter and sets the textViews.
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
 

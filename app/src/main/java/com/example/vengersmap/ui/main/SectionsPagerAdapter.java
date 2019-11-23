@@ -13,6 +13,8 @@ import com.example.vengersmap.R;
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
+ * Used in the fragment collection to display the list of the artifacts in the collection.
+ * Was auto generated
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 

@@ -1,19 +1,16 @@
 package com.example.vengersmap;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
-import java.util.ArrayList;
-
+/**
+ * Location adapter to convert from a location to a textView so that it can be displayed.
+ */
 class LocAdapter implements GoogleMap.InfoWindowAdapter {
     Context context;
 

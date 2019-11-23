@@ -20,6 +20,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
+/**
+ * Register class that registers the user with FirebaseAuth.
+ * Can be used to direct the user to the log in activity if the user already has an account.
+ */
 public class RegisterActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
@@ -75,6 +79,11 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Go to the login activity
+     * @param view
+     */
     public void goToLogin(View view){
         Intent intent = null;
         if(view.getId()== R.id.goToLoginBut){

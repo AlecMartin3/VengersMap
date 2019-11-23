@@ -2,6 +2,9 @@ package com.example.vengersmap;
 
 import java.util.ArrayList;
 
+/**
+ * Player class. Has a list of artifacts. Unused.
+ */
 public class Player {
 
     String email;

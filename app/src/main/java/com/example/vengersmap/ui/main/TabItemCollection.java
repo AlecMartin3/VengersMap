@@ -33,6 +33,8 @@ import java.util.ArrayList;
  * <p/>
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
+ * Is the fragment in the profile that displays the users collection. Uses a list of Artifacts to
+ * display all the different artifacts that the user has collected.
  */
 public class TabItemCollection extends Fragment {
 
@@ -55,10 +57,20 @@ public class TabItemCollection extends Fragment {
      */
     public TabItemCollection() {
     }
+    /**
+     * Destroys the event listener when you leave the profile page, so that it doesn't constantly
+     * update on null values which will lead to crashes
+     */
     public  void onDestroyView() {
         super.onDestroyView();
         databaseUser.removeEventListener(listener);
     }
+
+    /**
+     * Sets all the information for the view
+     * @param view
+     * @param savedInstanceState
+     */
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         databaseUser = FirebaseDatabase.getInstance().getReference("players").child(uid);
@@ -89,7 +101,6 @@ public class TabItemCollection extends Fragment {
         });
     }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static TabItemCollection newInstance(int columnCount) {
         TabItemCollection fragment = new TabItemCollection();
@@ -108,6 +119,13 @@ public class TabItemCollection extends Fragment {
         }
     }
 
+    /**
+     * Is called when the fragment view is created.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

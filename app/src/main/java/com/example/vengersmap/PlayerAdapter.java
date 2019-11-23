@@ -12,6 +12,10 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+/**
+ * A player adapter that takes a player list and displays all their artifacts that they have
+ * collected.
+ */
 public class PlayerAdapter extends ArrayAdapter<Player> {
     private Activity context;
     private List<Player> PlayerList;
@@ -28,6 +32,13 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
         this.PlayerList = PlayerList;
     }
 
+    /**
+     * Gets the view for the adapter.
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
